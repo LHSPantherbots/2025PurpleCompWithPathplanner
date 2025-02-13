@@ -11,15 +11,39 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "CorralScoreL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StowAll"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Reefside3 To BackFeeder"
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "CorralIntake"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "BackFeeder to Reefside3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CorralScoreL4"
           }
         }
       ]
