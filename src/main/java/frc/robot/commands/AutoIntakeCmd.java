@@ -3,31 +3,36 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeCoralSubsystem;
 
-public class IntakeCmd extends Command {
+public class AutoIntakeCmd extends Command {
 
     IntakeCoralSubsystem intake;
-    boolean finishes;
+    int counter = 0;
 
-    public IntakeCmd(IntakeCoralSubsystem intake){
+
+    public AutoIntakeCmd(IntakeCoralSubsystem intake){
         this.intake = intake;
-        this.finishes = true;
+  
         addRequirements(intake);
     }
 
     @Override
   public void execute() {
     this.intake.intake();
-    if(intake.getCurrent() >= 30){
-        finishes = true;
+
+    if(intake.getCurrent() >= 25){
+      counter++;
+    }else{
+      counter = 0;
     }
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      if (finishes) {
+    if(counter > 10){
       return true;
-    } else {
+    }else{
       return false;
     }
   }

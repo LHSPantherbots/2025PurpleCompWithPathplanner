@@ -10,6 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,10 +21,14 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AlgaeL2;
+import frc.robot.commands.AlgaeL3;
 import frc.robot.commands.CorralIntake;
+import frc.robot.commands.CorralScoreL1Dump;
 import frc.robot.commands.CorralScoreL2;
 import frc.robot.commands.CorralScoreL3;
 import frc.robot.commands.CorralScoreL4;
+import frc.robot.commands.StowAll;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -70,6 +75,16 @@ public class RobotContainer {
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
+
+        NamedCommands.registerCommand("AlgaeL2", new AlgaeL2(wrist, elevator));
+        NamedCommands.registerCommand("AlgaeL3", new AlgaeL3(wrist, elevator));
+        NamedCommands.registerCommand("AutoCorralIntake", new AutoCorralIntake(coral));
+        NamedCommands.registerCommand("CorralScoreL1Dump", new CorralScoreL1Dump(wrist, elevator));
+        NamedCommands.registerCommand("CorralScoreL2", new CorralScoreL2(wrist, elevator));
+        NamedCommands.registerCommand("CorralScoreL3", new CorralScoreL3(wrist, elevator));
+        NamedCommands.registerCommand("CorralScoreL4", new CorralScoreL4(wrist, elevator));
+        NamedCommands.registerCommand("StowAll", new StowAll(wrist, elevator));
+        NamedCommands.registerCommand("AutoCorralOutake", new AutoCorralOutake(launcher, feeder).withTimeout(1));
 
         configureBindings();
     }
