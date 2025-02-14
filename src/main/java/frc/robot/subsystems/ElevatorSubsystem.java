@@ -38,7 +38,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     cfg.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 69.0;
+    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 70.5;
     cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
     cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
     cfg.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -141,7 +141,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setElevatorCoralIntake(){
-    setElevatorSetpoint(0.0);
+    setElevatorSetpoint(10.0);
   }
 
   public void setElevatorCoralL1Dump(){
@@ -165,11 +165,15 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setElevatorAlgaeL2(){
-    setElevatorSetpoint(23.8);
+    setElevatorSetpoint(30.0);//23.8
   }
 
   public void setElevatorAlgaeL3(){
     setElevatorSetpoint(43.4);
+  }
+
+  public void setElevatorAlgaeStow(){
+    setElevatorSetpoint(0.0);
   }
 
 }

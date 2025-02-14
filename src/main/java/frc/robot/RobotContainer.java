@@ -10,6 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,10 +21,16 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AlgaeL2;
+import frc.robot.commands.AlgaeL3;
+import frc.robot.commands.AlgaeStowAll;
+import frc.robot.commands.AutoIntakeCmd;
 import frc.robot.commands.CorralIntake;
+import frc.robot.commands.CorralScoreL1Dump;
 import frc.robot.commands.CorralScoreL2;
 import frc.robot.commands.CorralScoreL3;
 import frc.robot.commands.CorralScoreL4;
+import frc.robot.commands.CorralScoreL4Flip;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -32,10 +39,14 @@ import frc.robot.subsystems.IntakeAlgaeSubsystem;
 import frc.robot.subsystems.IntakeCoralSubsystem;
 import frc.robot.subsystems.Leds;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.util.Position;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+  
+    
+
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -58,7 +69,7 @@ public class RobotContainer {
     private final WristSubsystem wrist = new WristSubsystem();
     private final IntakeCoralSubsystem coral = new IntakeCoralSubsystem();
     private final IntakeAlgaeSubsystem algae = new IntakeAlgaeSubsystem();
-    private final Leds leds = new Leds();
+    public static Leds leds = new Leds();
     private final ElevatorSubsystem elevator = new ElevatorSubsystem();
     private final ClimbSubsystem climb = new ClimbSubsystem();
 
@@ -68,6 +79,9 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+        NamedCommands.registerCommand("dumpL1", new CorralScoreL1Dump(wrist, elevator));
+
+
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -103,7 +117,7 @@ public class RobotContainer {
     
     coral.setDefaultCommand(new RunCommand(() -> coral.intakeStop(), coral));
     algae.setDefaultCommand(new RunCommand(() -> algae.intakeStop(), algae));
-    leds.setDefaultCommand(new RunCommand(() -> leds.rainbow(), leds));
+    leds.setDefaultCommand(new RunCommand(() -> leds.ledState(), leds));
 
 
 
@@ -149,20 +163,41 @@ public class RobotContainer {
 
     m_operatorController.povRight().onTrue(new CorralScoreL4(wrist, elevator));
 
-    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> coral.intake(), coral));
+    if (leds.getRobotStatus() == Position.CORAL_L4){ ////This is triying to flip the coral onto L4
+         m_operatorController.rightBumper().whileTrue(new CorralScoreL4Flip(wrist,elevator,coral));
+    }else{
+         m_operatorController.rightBumper().whileTrue(new RunCommand(() -> coral.intake(), coral));
+    }
 
-    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> coral.outtake(), coral));
+    //m_operatorController.rightBumper().onTrue(new AutoIntakeCmd(coral));
+
+    
+    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> coral.outtake(), coral));
+
+    //m_operatorController.leftBumper().onTrue(new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));
+
 
     m_operatorController.a().whileTrue(new RunCommand(()-> algae.intake(), algae));
     
     m_operatorController.x().whileTrue(new RunCommand(()-> algae.outtake(), algae));
 
+    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> wrist.manualWristMove(-m_operatorController.getRightY()*.25), wrist));
+
+    m_operatorController.y().onTrue(new AlgaeL3(wrist, elevator));
+
+    m_operatorController.b().onTrue(new AlgaeL2(wrist, elevator));
+
+    m_operatorController.start().onTrue(new AlgaeStowAll(wrist, elevator));
+
+
+    
 
 
 
 
 
-        drivetrain.registerTelemetry(logger::telemeterize);
+
+    drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public Command getAutonomousCommand() {

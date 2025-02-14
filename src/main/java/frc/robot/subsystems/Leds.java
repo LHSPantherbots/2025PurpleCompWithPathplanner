@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDs;
+import frc.robot.util.Position;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
@@ -9,8 +10,8 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 public class Leds extends SubsystemBase {
   /* Creates a new leds */
 
-  //private static RobotStatus state = RobotStatus.DEFAULT;
-  //private static RobotStatus prevState = RobotStatus.DEFAULT;
+  private Position state = Position.STOW;
+  private Position prevState = Position.STOW;
   public static int LEDstate = 0;
 
   private AddressableLED m_led;
@@ -30,7 +31,7 @@ public class Leds extends SubsystemBase {
   public Leds() {
     // PWM port 0
     // Must be a PWM header, not MXP or DIO
-    m_led = new AddressableLED(0);
+    m_led = new AddressableLED(1);
 
     // Reuse buffer
     // Default to a length of 60, start empty output
@@ -431,22 +432,57 @@ public void purpleStreak10() {
 
 
 
-//   public void setRobotStatus(RobotStatus newState){
-//     this.prevState = this.state;
-//     this.state = newState;
-//   }
+   public void setRobotStatus(Position newState){
+     this.prevState = this.state;
+     this.state = newState;   }
 
-//   public RobotStatus getRobotStatus(){
-//     return this.state;
-//   }
+   public Position getRobotStatus(){
+     return this.state;
+   }
 
-//   public RobotStatus getPrevRobotStatus(){
-//     return this.prevState;
-//   }
+   public Position getPrevRobotStatus(){
+     return this.prevState;
+   }
 
-//   public void ledState(){
+   public void ledState(){
         
-//     switch(this.state){
+     switch(this.state){
+
+      
+        case STOW:
+          rainbow();
+          break;
+        case CORAL_INTAKE:
+          greenPulse();;
+          break;
+        case CORAL_L1_DUMP:
+          rainbow();
+          break;
+        case CORAL_L1:
+          pantherStreak();
+          break;
+        case CORAL_L2:
+          purple();
+          break;
+        case CORAL_L3:
+          yellow();
+          break;
+        case CORAL_L4:
+          orange();
+          break;
+        case ALGAE_L2:
+          bluePulse();
+          break;
+        case ALGAE_L3:
+          blueStreak();
+          break;
+        case ALGAE_STOW:
+          blueStreak();
+          break;
+        case HOLD:
+          green();
+          break;
+      }
         
 //       case CLIMB: red(); break;
 //       case TARGET_LOCK: white(); break;
@@ -461,7 +497,7 @@ public void purpleStreak10() {
 //       case ROBOT_CENTRIC: rainbow(); break;
 //       case DEFAULT: if(RobotContainer.feeder.isNoteDetected()){orange();break;} pantherStreak(); break;
 //     }
-// }
+ }
 
 
 } 
