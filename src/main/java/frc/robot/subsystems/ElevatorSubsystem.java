@@ -153,11 +153,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setElevatorCoralL2(){
-    setElevatorSetpoint(20.1); // other option .53
+    setElevatorSetpoint(23.3); // other option .53
   }
 
   public void setElevatorCoralL3(){
-    setElevatorSetpoint(34.0); //31.5
+    setElevatorSetpoint(42.5); //31.5
   }
 
   public void setElevatorCoralL4(){
@@ -169,7 +169,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setElevatorAlgaeL3(){
-    setElevatorSetpoint(43.4);
+    setElevatorSetpoint(47.4);
   }
 
   public void setElevatorAlgaeStow(){

@@ -137,7 +137,7 @@ public class RobotContainer {
     ));
 
     //Slow Mode
-    m_driverController.y().whileTrue(drivetrain.applyRequest(() ->
+    m_driverController.rightBumper().whileTrue(drivetrain.applyRequest(() ->
     drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * .25) // Drive forward with negative Y (forward)
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed * .25) // Drive left with negative X (left)
         .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate * .25)));
