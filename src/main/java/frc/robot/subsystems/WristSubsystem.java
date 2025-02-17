@@ -31,8 +31,10 @@ public class WristSubsystem extends SubsystemBase{
     private AbsoluteEncoderConfig c_EncoderConfig = new AbsoluteEncoderConfig();
     private final SparkClosedLoopController wristController;
 
-
-    private double wristSetpoint = 0.8;
+    private double pivot_zero_offset = .1078;  //wrist was zeroed vertically up 
+                                            //agains the elevator for initial setpoints then was take above the top of the elevator and 
+                                            //moved past the initial zero by this amount then rezeroed.
+    private double wristSetpoint = 0.75; //-pivot_zero_offset
     private double allowableError = 0.1;
 
     private ShuffleboardTab tab = Shuffleboard.getTab("Tuning");  //angles used for shuffleboard; taken from 2024 fulcrum code
@@ -54,9 +56,9 @@ public class WristSubsystem extends SubsystemBase{
                 .smartCurrentLimit(40)
                 .inverted(false);
         c_Wrist.softLimit
-            .forwardSoftLimit(0.9)
+            .forwardSoftLimit(0.9-pivot_zero_offset)
             .forwardSoftLimitEnabled(true)
-            .reverseSoftLimit(0.5)
+            .reverseSoftLimit(0.56)
             .reverseSoftLimitEnabled(true);
                 
                 
@@ -102,7 +104,7 @@ public class WristSubsystem extends SubsystemBase{
     }
 
      public double getPosition() {
-        return e_WristEncoder.getPosition()*2*3.14159*34.0/36.0+.35319;
+        return (e_WristEncoder.getPosition()-pivot_zero_offset)*2*3.14159*34.0/36.0+.35319;
     }
 
     public double getPositionFeedForward(){
@@ -151,39 +153,43 @@ public class WristSubsystem extends SubsystemBase{
 
 
     public void setWristStow(){
-        setWristSetpoint(0.88);
+        setWristSetpoint(0.88-pivot_zero_offset);
       }
     
       public void setWristCoralIntake(){
-        setWristSetpoint(0.88);
+        setWristSetpoint(0.70);
       }
     
       public void setWristCoralL1Dump(){
-        setWristSetpoint(0.69);
+        setWristSetpoint(0.69-pivot_zero_offset);
       }
     
       public void setWristCoralL1(){
-        setWristSetpoint(0.69);
+        setWristSetpoint(0.69-pivot_zero_offset);
       }
     
       public void setWristCoralL2(){
-        setWristSetpoint(0.69); // other option .72
+        setWristSetpoint(0.69-pivot_zero_offset); // other option .72
       }
     
       public void setWristCoralL3(){
-        setWristSetpoint(0.73);
+        setWristSetpoint(0.69-pivot_zero_offset);
       }
     
       public void setWristCoralL4(){
-        setWristSetpoint(0.68);
+        setWristSetpoint(0.62);
       }
     
       public void setWristAlgaeL2(){
-        setWristSetpoint(0.75);
+        setWristSetpoint(0.74-pivot_zero_offset);
       }
     
       public void setWristAlgaeL3(){
-        setWristSetpoint(0.74);
+        setWristSetpoint(0.79-pivot_zero_offset);
+      }
+
+      public void setWristAlgaeStow(){
+        setWristSetpoint(0.74-pivot_zero_offset);
       }
 
 

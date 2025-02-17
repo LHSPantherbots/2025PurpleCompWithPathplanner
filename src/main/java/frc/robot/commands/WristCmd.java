@@ -64,6 +64,9 @@ public class WristCmd extends Command {
       case ALGAE_L3:
         this.wrist.setWristAlgaeL3();
         break;
+      case ALGAE_STOW:
+        this.wrist.setWristAlgaeStow();
+        break;
       case HOLD:
         this.wrist.closedLoopWrist();
         break;

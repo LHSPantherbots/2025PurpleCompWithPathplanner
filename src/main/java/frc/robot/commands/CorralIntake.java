@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.util.Position;
@@ -22,7 +24,8 @@ public class CorralIntake extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorCmd(Position.CORAL_INTAKE, elevator),
-      new WristCmd(Position.CORAL_INTAKE, wrist)
+      new WristCmd(Position.CORAL_INTAKE, wrist),
+      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_INTAKE), RobotContainer.leds)
     );
   }
 }

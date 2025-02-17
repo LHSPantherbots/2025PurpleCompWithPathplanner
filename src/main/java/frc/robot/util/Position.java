@@ -4,7 +4,11 @@
 
 package frc.robot.util;
 
-public enum Position {
+
+
+
+
+  public enum Position {
     STOW,
     CORAL_INTAKE,
     CORAL_L1_DUMP,
@@ -14,5 +18,9 @@ public enum Position {
     CORAL_L4,
     ALGAE_L2,
     ALGAE_L3,
+    ALGAE_STOW,
     HOLD
   }
+
+
+

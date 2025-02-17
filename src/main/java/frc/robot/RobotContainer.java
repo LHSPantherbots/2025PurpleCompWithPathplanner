@@ -38,10 +38,14 @@ import frc.robot.subsystems.IntakeAlgaeSubsystem;
 import frc.robot.subsystems.IntakeCoralSubsystem;
 import frc.robot.subsystems.Leds;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.util.Position;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+  
+    
+
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -64,7 +68,7 @@ public class RobotContainer {
     private final WristSubsystem wrist = new WristSubsystem();
     private final IntakeCoralSubsystem coral = new IntakeCoralSubsystem();
     private final IntakeAlgaeSubsystem algae = new IntakeAlgaeSubsystem();
-    private final Leds leds = new Leds();
+    public static Leds leds = new Leds();
     private final ElevatorSubsystem elevator = new ElevatorSubsystem();
     private final ClimbSubsystem climb = new ClimbSubsystem();
 
@@ -120,7 +124,7 @@ public class RobotContainer {
     
     coral.setDefaultCommand(new RunCommand(() -> coral.intakeStop(), coral));
     algae.setDefaultCommand(new RunCommand(() -> algae.intakeStop(), algae));
-    leds.setDefaultCommand(new RunCommand(() -> leds.rainbow(), leds));
+    leds.setDefaultCommand(new RunCommand(() -> leds.ledState(), leds));
 
 
 
@@ -138,6 +142,12 @@ public class RobotContainer {
     m_driverController.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))
     ));
+
+    //Slow Mode
+    m_driverController.rightBumper().whileTrue(drivetrain.applyRequest(() ->
+    drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * .25) // Drive forward with negative Y (forward)
+        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed * .25) // Drive left with negative X (left)
+        .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate * .25)));
 
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
@@ -166,20 +176,41 @@ public class RobotContainer {
 
     m_operatorController.povRight().onTrue(new CorralScoreL4(wrist, elevator));
 
-    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> coral.intake(), coral));
+    if (leds.getRobotStatus() == Position.CORAL_L4){ ////This is triying to flip the coral onto L4
+         m_operatorController.rightBumper().whileTrue(new CorralScoreL4Flip(wrist,elevator,coral));
+    }else{
+         m_operatorController.rightBumper().whileTrue(new RunCommand(() -> coral.intake(), coral));
+    }
 
-    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> coral.outtake(), coral));
+    //m_operatorController.rightBumper().onTrue(new AutoIntakeCmd(coral));
+
+    
+    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> coral.outtake(), coral));
+
+    //m_operatorController.leftBumper().onTrue(new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));
+
 
     m_operatorController.a().whileTrue(new RunCommand(()-> algae.intake(), algae));
     
     m_operatorController.x().whileTrue(new RunCommand(()-> algae.outtake(), algae));
 
+    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> wrist.manualWristMove(-m_operatorController.getRightY()*.25), wrist));
+
+    m_operatorController.y().onTrue(new AlgaeL3(wrist, elevator));
+
+    m_operatorController.b().onTrue(new AlgaeL2(wrist, elevator));
+
+    m_operatorController.start().onTrue(new AlgaeStowAll(wrist, elevator));
+
+
+    
 
 
 
 
 
-        drivetrain.registerTelemetry(logger::telemeterize);
+
+    drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public Command getAutonomousCommand() {

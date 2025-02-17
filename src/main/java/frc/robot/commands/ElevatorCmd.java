@@ -64,6 +64,9 @@ public class ElevatorCmd extends Command {
       case ALGAE_L3:
         this.elevator.setElevatorAlgaeL3();
         break;
+      case ALGAE_STOW:
+        this.elevator.setElevatorAlgaeStow();
+        break;
       case HOLD:
         this.elevator.motionMagicSetPosition();
         break;
@@ -81,6 +84,7 @@ public class ElevatorCmd extends Command {
   @Override
   public void end(boolean interrupted) {
     this.elevator.motionMagicSetPosition();
+
   }
 
   // Returns true when the command should end.

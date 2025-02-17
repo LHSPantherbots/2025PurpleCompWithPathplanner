@@ -14,17 +14,20 @@ import frc.robot.util.Position;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AlgaeL3 extends ParallelCommandGroup {
+public class AlgaeStowAll extends ParallelCommandGroup {
+  /** Creates a new CorralScoreL2. */
 
-  public AlgaeL3(
-      WristSubsystem wrist,
-      ElevatorSubsystem elevator) {
+  public AlgaeStowAll(
+    WristSubsystem wrist,
+    ElevatorSubsystem elevator
+  ) 
+  {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ElevatorCmd(Position.ALGAE_L3, elevator),
-      new WristCmd(Position.ALGAE_L3, wrist),
-      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.ALGAE_L3), RobotContainer.leds)
+      new ElevatorCmd(Position.ALGAE_STOW, elevator),
+      new WristCmd(Position.ALGAE_STOW, wrist),
+      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.ALGAE_STOW), RobotContainer.leds)
     );
   }
 }
