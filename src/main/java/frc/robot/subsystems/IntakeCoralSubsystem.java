@@ -37,7 +37,7 @@ public class IntakeCoralSubsystem extends SubsystemBase{
     }
 
     public void outtake() {
-      m_IntakeCoral.set(.7); //test this
+      m_IntakeCoral.set(.6); //test this
     }
 
     public void intakeStop() {
