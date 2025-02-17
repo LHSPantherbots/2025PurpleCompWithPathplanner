@@ -23,14 +23,13 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeL2;
 import frc.robot.commands.AlgaeL3;
-import frc.robot.commands.AlgaeStowAll;
-import frc.robot.commands.AutoIntakeCmd;
 import frc.robot.commands.CorralIntake;
 import frc.robot.commands.CorralScoreL1Dump;
 import frc.robot.commands.CorralScoreL2;
 import frc.robot.commands.CorralScoreL3;
 import frc.robot.commands.CorralScoreL4;
-import frc.robot.commands.CorralScoreL4Flip;
+import frc.robot.commands.StowAll;
+import frc.robot.commands.AutoIntakeCmd;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -79,8 +78,16 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        NamedCommands.registerCommand("dumpL1", new CorralScoreL1Dump(wrist, elevator));
 
+        NamedCommands.registerCommand("AlgaeL2", new AlgaeL2(wrist, elevator));
+        NamedCommands.registerCommand("AlgaeL3", new AlgaeL3(wrist, elevator));
+        NamedCommands.registerCommand("AutoIntakeCmd", new AutoIntakeCmd(coral));
+        NamedCommands.registerCommand("CorralScoreL1Dump", new CorralScoreL1Dump(wrist, elevator));
+        NamedCommands.registerCommand("CorralScoreL2", new CorralScoreL2(wrist, elevator));
+        NamedCommands.registerCommand("CorralScoreL3", new CorralScoreL3(wrist, elevator));
+        NamedCommands.registerCommand("CorralScoreL4", new CorralScoreL4(wrist, elevator));
+        NamedCommands.registerCommand("StowAll", new StowAll(wrist, elevator));
+        NamedCommands.registerCommand("AutoIntakeCmd", new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
