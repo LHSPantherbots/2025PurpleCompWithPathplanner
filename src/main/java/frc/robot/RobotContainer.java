@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Optional;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -13,21 +15,32 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeL2;
 import frc.robot.commands.AlgaeL3;
+import frc.robot.commands.AlgaeStowAll;
+import frc.robot.commands.AprilTagAlign;
+import frc.robot.commands.AprilTagAlign2;
 import frc.robot.commands.CorralIntake;
 import frc.robot.commands.CorralScoreL1Dump;
 import frc.robot.commands.CorralScoreL2;
 import frc.robot.commands.CorralScoreL3;
 import frc.robot.commands.CorralScoreL4;
+import frc.robot.commands.CorralScoreL4Flip;
 import frc.robot.commands.StowAll;
 import frc.robot.commands.AutoIntakeCmd;
 import frc.robot.generated.TunerConstants;
@@ -38,6 +51,7 @@ import frc.robot.subsystems.IntakeAlgaeSubsystem;
 import frc.robot.subsystems.IntakeCoralSubsystem;
 import frc.robot.subsystems.Leds;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.util.OffsetDirection;
 import frc.robot.util.Position;
 
 public class RobotContainer {
@@ -64,7 +78,7 @@ public class RobotContainer {
     private final CommandXboxController m_operatorController = 
       new CommandXboxController(OperatorConstants.kOperatorControllerPort);
    
-      public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final WristSubsystem wrist = new WristSubsystem();
     private final IntakeCoralSubsystem coral = new IntakeCoralSubsystem();
     private final IntakeAlgaeSubsystem algae = new IntakeAlgaeSubsystem();
@@ -74,10 +88,33 @@ public class RobotContainer {
 
 
 
+
+    //Drive to spot stuff
+        double kDt = .02;
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+  
+  
+
+
+      private final PIDController x_controller = new PIDController(10, 0, 0);
+      private final PIDController y_controller = new PIDController(10, 0,0);
+      private final PIDController theta_controller = new PIDController(20, 0, 0);
+      
+      
+      
+
+      public static Pose2d desiredPosition = new Pose2d(3.0, 3.0, new Rotation2d());
+
+
+    //end drive to spot stuff
+
+
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+
+        theta_controller.enableContinuousInput(0.0,Math.PI*2.0);
 
         NamedCommands.registerCommand("AlgaeL2", new AlgaeL2(wrist, elevator));
         NamedCommands.registerCommand("AlgaeL3", new AlgaeL3(wrist, elevator));
@@ -162,6 +199,63 @@ public class RobotContainer {
     // reset the field-centric heading on start press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
+    //m_driverController.y().whileTrue(new AprilTagAlign(drivetrain, OffsetDirection.RIGHT));
+
+    //m_driverController.y().onTrue(new InstantCommand(()->this.resetControllers()));   
+    m_driverController.y().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.CENTER));
+
+    if(alliance.get()==Alliance.Red){
+    m_driverController.y()
+        .whileTrue(drivetrain.applyRequest(() ->
+    drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+        .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+
+        m_driverController.x().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
+        m_driverController.x()
+            .whileTrue(drivetrain.applyRequest(() ->
+        drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+            .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+    }
+
+
+    
+    if(alliance.get()==Alliance.Blue){
+        m_driverController.y()
+        .whileTrue(drivetrain.applyRequest(() ->
+    drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+        .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+
+        m_driverController.x().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
+        m_driverController.x()
+            .whileTrue(drivetrain.applyRequest(() ->
+        drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+            .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+    }
+    
+        
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     drivetrain.registerTelemetry(logger::telemeterize);
 
 
@@ -217,4 +311,16 @@ public class RobotContainer {
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
     }
+
+    // public void resetControllers(){
+    //     x_controller.reset(drivetrain.getState().Pose.getX());
+    //     y_controller.reset(drivetrain.getState().Pose.getY());
+    //     theta_controller.reset(drivetrain.getState().Pose.getRotation().getRadians());
+    // }
+        
+    
+
+    // public void setDesiredPosition(Pose2d desiredPosition){
+    //     this.desiredPosition = desiredPosition;
+    // }
 }
