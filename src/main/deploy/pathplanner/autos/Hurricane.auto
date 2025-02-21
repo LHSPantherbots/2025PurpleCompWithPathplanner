@@ -19,6 +19,12 @@
         {
           "type": "named",
           "data": {
+            "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "StowAll"
           }
         },
@@ -35,6 +41,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeCmd"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "BackFeeder to Reefside3"
@@ -43,7 +55,13 @@
         {
           "type": "named",
           "data": {
-            "name": "CorralScoreL4"
+            "name": "CorralScoreL1Dump"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
           }
         }
       ]
