@@ -9,36 +9,39 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
+// import com.pathplanner.lib.auto.AutoBuilder;
+// import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.MathUtil;
+//import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+//import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AlgaeL2;
-import frc.robot.commands.AlgaeL3;
-import frc.robot.commands.CorralIntake;
-import frc.robot.commands.CorralScoreL1Dump;
-import frc.robot.commands.CorralScoreL2;
-import frc.robot.commands.CorralScoreL3;
-import frc.robot.commands.CorralScoreL4;
-import frc.robot.commands.StowAll;
-import frc.robot.commands.AutoIntakeCmd;
+// import frc.robot.commands.AlgaeL2;
+// import frc.robot.commands.AlgaeL3;
+// import frc.robot.commands.AlgaeStowAll;
+// import frc.robot.commands.CorralIntake;
+// import frc.robot.commands.CorralScoreL1Dump;
+// import frc.robot.commands.CorralScoreL2;
+// import frc.robot.commands.CorralScoreL3;
+// import frc.robot.commands.CorralScoreL4;
+// import frc.robot.commands.CorralScoreL4Flip;
+// import frc.robot.commands.StowAll;
+//import frc.robot.commands.AutoIntakeCmd;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ClimbSubsystem;
+// import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeAlgaeSubsystem;
-import frc.robot.subsystems.IntakeCoralSubsystem;
-import frc.robot.subsystems.Leds;
-import frc.robot.subsystems.WristSubsystem;
-import frc.robot.util.Position;
+// import frc.robot.subsystems.ElevatorSubsystem;
+// import frc.robot.subsystems.IntakeAlgaeSubsystem;
+// import frc.robot.subsystems.IntakeCoralSubsystem;
+// import frc.robot.subsystems.Leds;
+// import frc.robot.subsystems.WristSubsystem;
+// import frc.robot.util.Position;
+import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -61,36 +64,38 @@ public class RobotContainer {
    // Replace with CommandPS4Controller or CommandJoystick if needed
      private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-    private final CommandXboxController m_operatorController = 
-      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+    // private final CommandXboxController m_operatorController = 
+    //   new CommandXboxController(OperatorConstants.kOperatorControllerPort);
    
-      public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    private final WristSubsystem wrist = new WristSubsystem();
-    private final IntakeCoralSubsystem coral = new IntakeCoralSubsystem();
-    private final IntakeAlgaeSubsystem algae = new IntakeAlgaeSubsystem();
-    public static Leds leds = new Leds();
-    private final ElevatorSubsystem elevator = new ElevatorSubsystem();
-    private final ClimbSubsystem climb = new ClimbSubsystem();
+    public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    // private final WristSubsystem wrist = new WristSubsystem();
+    // private final IntakeCoralSubsystem coral = new IntakeCoralSubsystem();
+    // private final IntakeAlgaeSubsystem algae = new IntakeAlgaeSubsystem();
+    // public static Leds leds = new Leds();
+    // private final ElevatorSubsystem elevator = new ElevatorSubsystem();
+    // private final ClimbSubsystem climb = new ClimbSubsystem();
+    Vision vision;
 
 
 
     /* Path follower */
-    private final SendableChooser<Command> autoChooser;
+   // private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
 
-        NamedCommands.registerCommand("AlgaeL2", new AlgaeL2(wrist, elevator));
-        NamedCommands.registerCommand("AlgaeL3", new AlgaeL3(wrist, elevator));
-        NamedCommands.registerCommand("AutoIntakeCmd", new AutoIntakeCmd(coral));
-        NamedCommands.registerCommand("CorralScoreL1Dump", new CorralScoreL1Dump(wrist, elevator));
-        NamedCommands.registerCommand("CorralScoreL2", new CorralScoreL2(wrist, elevator));
-        NamedCommands.registerCommand("CorralScoreL3", new CorralScoreL3(wrist, elevator));
-        NamedCommands.registerCommand("CorralScoreL4", new CorralScoreL4(wrist, elevator));
-        NamedCommands.registerCommand("StowAll", new StowAll(wrist, elevator));
-        NamedCommands.registerCommand("AutoIntakeCmd", new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));
+        // NamedCommands.registerCommand("AlgaeL2", new AlgaeL2(wrist, elevator));
+        // NamedCommands.registerCommand("AlgaeL3", new AlgaeL3(wrist, elevator));
+        // NamedCommands.registerCommand("AutoIntakeCmd", new AutoIntakeCmd(coral));
+        // NamedCommands.registerCommand("CorralScoreL1Dump", new CorralScoreL1Dump(wrist, elevator));
+        // NamedCommands.registerCommand("CorralScoreL2", new CorralScoreL2(wrist, elevator));
+        // NamedCommands.registerCommand("CorralScoreL3", new CorralScoreL3(wrist, elevator));
+        // NamedCommands.registerCommand("CorralScoreL4", new CorralScoreL4(wrist, elevator));
+        // NamedCommands.registerCommand("StowAll", new StowAll(wrist, elevator));
+        // NamedCommands.registerCommand("AutoIntakeCmd", new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));
 
-        autoChooser = AutoBuilder.buildAutoChooser("Tests");
-        SmartDashboard.putData("Auto Mode", autoChooser);
+        // autoChooser = AutoBuilder.buildAutoChooser("Tests");
+        // SmartDashboard.putData("Auto Mode", autoChooser);
+        vision = new Vision();
 
         configureBindings();
     }
@@ -110,31 +115,31 @@ public class RobotContainer {
              )
          );
 
-    elevator.setDefaultCommand(
-        new RunCommand(
-          () -> elevator.motionMagicSetPosition(), elevator));
-          //.manualDrive(-m_driverController.getRightY()*.25), elevator));
+    // elevator.setDefaultCommand(
+    //     new RunCommand(
+    //       () -> elevator.motionMagicSetPosition(), elevator));
+    //       //.manualDrive(-m_driverController.getRightY()*.25), elevator));
 
-    climb.setDefaultCommand(
-      new RunCommand(
-        ()-> climb.manualClimbMove(0.0), climb));
+    // climb.setDefaultCommand(
+    //   new RunCommand(
+    //     ()-> climb.manualClimbMove(0.0), climb));
 
-    wrist.setDefaultCommand(
-            new RunCommand(() -> wrist.closedLoopWrist(), wrist));
+    // wrist.setDefaultCommand(
+    //         new RunCommand(() -> wrist.closedLoopWrist(), wrist));
     
-    coral.setDefaultCommand(new RunCommand(() -> coral.intakeStop(), coral));
-    algae.setDefaultCommand(new RunCommand(() -> algae.intakeStop(), algae));
-    leds.setDefaultCommand(new RunCommand(() -> leds.ledState(), leds));
+    // coral.setDefaultCommand(new RunCommand(() -> coral.intakeStop(), coral));
+    // algae.setDefaultCommand(new RunCommand(() -> algae.intakeStop(), algae));
+    // leds.setDefaultCommand(new RunCommand(() -> leds.ledState(), leds));
 
 
 
 
     //************  DRIVER CONTROLLER  ****************
 
-    m_driverController.leftBumper().whileTrue(
-        new RunCommand(
-            () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getRightY(), OperatorConstants.kDriveDeadband)),
-            climb));
+    // m_driverController.leftBumper().whileTrue(
+    //     new RunCommand(
+    //         () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getRightY(), OperatorConstants.kDriveDeadband)),
+    //         climb));
     
     m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
     
@@ -168,39 +173,39 @@ public class RobotContainer {
 
     //************   OPERATOR CONTROLLER  *******************
 
-    m_operatorController.povDown().onTrue(new CorralIntake(wrist, elevator));  //Intake/Stow
+    // m_operatorController.povDown().onTrue(new CorralIntake(wrist, elevator));  //Intake/Stow
     
-    m_operatorController.povLeft().onTrue(new CorralScoreL2(wrist, elevator));
+    // m_operatorController.povLeft().onTrue(new CorralScoreL2(wrist, elevator));
 
-    m_operatorController.povUp().onTrue(new CorralScoreL3(wrist, elevator));
+    // m_operatorController.povUp().onTrue(new CorralScoreL3(wrist, elevator));
 
-    m_operatorController.povRight().onTrue(new CorralScoreL4(wrist, elevator));
+    // m_operatorController.povRight().onTrue(new CorralScoreL4(wrist, elevator));
 
-    if (leds.getRobotStatus() == Position.CORAL_L4){ ////This is triying to flip the coral onto L4
-         m_operatorController.rightBumper().whileTrue(new CorralScoreL4Flip(wrist,elevator,coral));
-    }else{
-         m_operatorController.rightBumper().whileTrue(new RunCommand(() -> coral.intake(), coral));
-    }
+    // if (leds.getRobotStatus() == Position.CORAL_L4){ ////This is triying to flip the coral onto L4
+    //      m_operatorController.rightBumper().whileTrue(new CorralScoreL4Flip(wrist,elevator,coral));
+    // }else{
+    //      m_operatorController.rightBumper().whileTrue(new RunCommand(() -> coral.intake(), coral));
+    // }
 
     //m_operatorController.rightBumper().onTrue(new AutoIntakeCmd(coral));
 
     
-    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> coral.outtake(), coral));
+    // m_operatorController.leftBumper().whileTrue(new RunCommand(() -> coral.outtake(), coral));
 
-    //m_operatorController.leftBumper().onTrue(new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));
+    // //m_operatorController.leftBumper().onTrue(new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));
 
 
-    m_operatorController.a().whileTrue(new RunCommand(()-> algae.intake(), algae));
+    // m_operatorController.a().whileTrue(new RunCommand(()-> algae.intake(), algae));
     
-    m_operatorController.x().whileTrue(new RunCommand(()-> algae.outtake(), algae));
+    // m_operatorController.x().whileTrue(new RunCommand(()-> algae.outtake(), algae));
 
-    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> wrist.manualWristMove(-m_operatorController.getRightY()*.25), wrist));
+    // m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> wrist.manualWristMove(-m_operatorController.getRightY()*.25), wrist));
 
-    m_operatorController.y().onTrue(new AlgaeL3(wrist, elevator));
+    // m_operatorController.y().onTrue(new AlgaeL3(wrist, elevator));
 
-    m_operatorController.b().onTrue(new AlgaeL2(wrist, elevator));
+    // m_operatorController.b().onTrue(new AlgaeL2(wrist, elevator));
 
-    m_operatorController.start().onTrue(new AlgaeStowAll(wrist, elevator));
+    // m_operatorController.start().onTrue(new AlgaeStowAll(wrist, elevator));
 
 
     
@@ -215,6 +220,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
-        return autoChooser.getSelected();
+        return null;//autoChooser.getSelected();
     }
 }
