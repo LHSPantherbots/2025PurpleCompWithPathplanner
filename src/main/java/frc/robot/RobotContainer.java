@@ -197,7 +197,7 @@ public class RobotContainer {
     // reset the field-centric heading on start press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-    m_driverController.povUp().onTrue(new InstantCommand(()->drivetrain.resetPose(LimelightHelpers.getBotPose2d("limelight")),drivetrain));
+    m_driverController.povUp().onTrue(new InstantCommand(()->drivetrain.resetPose(LimelightHelpers.getBotPose2d_wpiBlue("limelight")),drivetrain));
 
     //m_driverController.y().whileTrue(new AprilTagAlign(drivetrain, OffsetDirection.RIGHT));
 
