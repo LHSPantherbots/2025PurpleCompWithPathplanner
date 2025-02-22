@@ -9,18 +9,6 @@
           "data": {
             "pathName": "MidField to Reefside1"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CorralScoreL1Dump"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoOutakeCmd"
-          }
         }
       ]
     }

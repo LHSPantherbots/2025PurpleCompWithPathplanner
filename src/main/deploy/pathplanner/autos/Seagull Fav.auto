@@ -33,12 +33,6 @@
           "data": {
             "pathName": "BackFeeder to Reefside3"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Reefside3 To BackFeeder"
-          }
         }
       ]
     }
