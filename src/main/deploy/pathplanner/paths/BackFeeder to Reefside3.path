@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+
         "x": 1.4336348684210527,
         "y": 6.921134868421052
       },
@@ -10,6 +11,7 @@
       "nextControl": {
         "x": 2.1784709339948227,
         "y": 6.37489511432269
+
       },
       "isLocked": false,
       "linkedName": "BackFeeder"
