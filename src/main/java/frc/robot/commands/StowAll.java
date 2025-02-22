@@ -10,6 +10,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.util.Position;
+import frc.robot.util.WristSpeed;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -26,7 +27,7 @@ public class StowAll extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorCmd(Position.STOW, elevator),
-      new WristCmd(Position.STOW, wrist),
+      new WristCmd(Position.STOW, wrist, WristSpeed.SLOW, true),
       new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.STOW), RobotContainer.leds)
     );
   }

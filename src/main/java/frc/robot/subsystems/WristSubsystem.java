@@ -8,6 +8,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import java.util.Map;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -27,14 +28,15 @@ import frc.robot.Constants.WristConstants;
 public class WristSubsystem extends SubsystemBase{
     private  SparkMax m_Wrist; 
     private  SparkMaxConfig c_Wrist = new SparkMaxConfig();
-    AbsoluteEncoder e_WristEncoder;
+    AbsoluteEncoder absEncoder;
     private AbsoluteEncoderConfig c_EncoderConfig = new AbsoluteEncoderConfig();
+    private RelativeEncoder relEncoder;
     private final SparkClosedLoopController wristController;
 
     private double pivot_zero_offset = .1078;  //wrist was zeroed vertically up 
                                             //agains the elevator for initial setpoints then was take above the top of the elevator and 
                                             //moved past the initial zero by this amount then rezeroed.
-    private double wristSetpoint = 0.75; //-pivot_zero_offset
+    private double wristSetpoint = 0.89; //-pivot_zero_offset
     private double allowableError = 0.1;
 
     private ShuffleboardTab tab = Shuffleboard.getTab("Tuning");  //angles used for shuffleboard; taken from 2024 fulcrum code
@@ -46,7 +48,8 @@ public class WristSubsystem extends SubsystemBase{
     public WristSubsystem() {      
         m_Wrist = new SparkMax(WristConstants.kWrist, MotorType.kBrushless);
         wristController = m_Wrist.getClosedLoopController();
-        e_WristEncoder = m_Wrist.getAbsoluteEncoder();
+        absEncoder = m_Wrist.getAbsoluteEncoder();
+        relEncoder = m_Wrist.getEncoder();
 
 
 
@@ -54,11 +57,12 @@ public class WristSubsystem extends SubsystemBase{
         c_Wrist
                 .idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(40)
+                .voltageCompensation(12)
                 .inverted(false);
         c_Wrist.softLimit
-            .forwardSoftLimit(0.9-pivot_zero_offset)
+            .forwardSoftLimit(getRelativeTarget(0.9-pivot_zero_offset))
             .forwardSoftLimitEnabled(true)
-            .reverseSoftLimit(0.56)
+            .reverseSoftLimit(getRelativeTarget(0.56))
             .reverseSoftLimitEnabled(true);
                 
                 
@@ -66,23 +70,26 @@ public class WristSubsystem extends SubsystemBase{
                 
                 .positionConversionFactor(1.0) // meters
                 .velocityConversionFactor(1.0);//meters/sec
-        c_EncoderConfig.zeroOffset(0.25);
+        //c_EncoderConfig.zeroOffset(0.25);
                 
                 
 //                  .inverted(false);
         c_Wrist.closedLoop
-                  .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                  .p(3.0)//need to tune
-                  .i(0)
-                  .d(0.0)
-                  .velocityFF(0.0)
-                  .maxOutput(1.00)
-                  .minOutput(-1.0)
+                  .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                  .p(0.2, ClosedLoopSlot.kSlot0)//need to tune
+                  .p(0.2, ClosedLoopSlot.kSlot1)
+                  .outputRange(-1, 1, ClosedLoopSlot.kSlot0)
+                  .outputRange(-1, 1, ClosedLoopSlot.kSlot1)
+
                   .maxMotion
-                    .maxAcceleration(1.0)
-                    .maxVelocity(1.0)
-                    .allowedClosedLoopError(.1) //degrees
+                    .maxVelocity(2000, ClosedLoopSlot.kSlot0)
+                    .maxAcceleration(10000, ClosedLoopSlot.kSlot0)
+                    .maxVelocity(200, ClosedLoopSlot.kSlot1)
+                    .maxAcceleration(1000, ClosedLoopSlot.kSlot1)
+                    .allowedClosedLoopError(.1, ClosedLoopSlot.kSlot0)
+                    .allowedClosedLoopError(.1, ClosedLoopSlot.kSlot1)
                     ;
+        setWristRelativeEncoderFromAbsolute();
         
         m_Wrist.configure(c_Wrist, ResetMode.kResetSafeParameters,
                     PersistMode.kPersistParameters);
@@ -91,10 +98,11 @@ public class WristSubsystem extends SubsystemBase{
     }
     @Override
     public void periodic() {
-      SmartDashboard.putNumber("Wrist Velocity", e_WristEncoder.getVelocity());
+      SmartDashboard.putNumber("Wrist Velocity", relEncoder.getVelocity());
       SmartDashboard.putNumber("Wrist Output", m_Wrist.getAppliedOutput());
       SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);
-      SmartDashboard.putNumber("Wrist Pos", e_WristEncoder.getPosition());
+      SmartDashboard.putNumber("Wrist Pos Abs", absEncoder.getPosition());
+      SmartDashboard.putNumber("Wrist Pos Rel", relEncoder.getPosition());
       SmartDashboard.putNumber("Wrist FF", getPositionFeedForward());
     
     }
@@ -104,12 +112,20 @@ public class WristSubsystem extends SubsystemBase{
     }
 
      public double getPosition() {
-        return (e_WristEncoder.getPosition()-pivot_zero_offset)*2*3.14159*34.0/36.0+.35319;
+        return (absEncoder.getPosition()-pivot_zero_offset)*2*3.14159*34.0/36.0+.35319;
     }
 
     public double getPositionFeedForward(){
         double kF = 0.5;
         return kF*-1*Math.sin(getPosition());
+    }
+
+    public void setWristRelativeEncoderFromAbsolute(){
+      double absolutePosition = absEncoder.getPosition();
+      double wristRatio = 36.0/34.0*25.0;
+      relEncoder.setPosition(absolutePosition*wristRatio);
+
+
     }
 
 
@@ -145,6 +161,22 @@ public class WristSubsystem extends SubsystemBase{
         wristController.setReference(sp, ControlType.kPosition, ClosedLoopSlot.kSlot0, ff);
     }
 
+    public void moveToSetpoint() {
+      double ff = getPositionFeedForward();
+      wristController.setReference(getRelativeTarget(wristSetpoint), ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, ff);
+    }
+  
+    public void moveToSetpointSlower() {
+      double ff = getPositionFeedForward();
+      wristController.setReference(getRelativeTarget(wristSetpoint), ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot1, ff);
+    }
+
+
+    public double getRelativeTarget(double absSoluteTarget){
+      double wristRatio = 36.0/34.0*25.0;
+      return absSoluteTarget*wristRatio;
+    }
+
 
     public boolean isAtAngle() {
         double error = getPosition() - wristSetpoint;
@@ -161,7 +193,7 @@ public class WristSubsystem extends SubsystemBase{
       }
     
       public void setWristCoralL1Dump(){
-        setWristSetpoint(0.69-pivot_zero_offset);
+        setWristSetpoint(0.61);
       }
     
       public void setWristCoralL1(){

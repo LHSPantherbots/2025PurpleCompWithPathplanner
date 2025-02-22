@@ -42,8 +42,8 @@ public class Robot extends TimedRobot {
       //var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
-        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
-        m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(.01,.01,1000000000));
+        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds, VecBuilder.fill(0.1, 0.1, 9999999));
+       
       }
     }
   }

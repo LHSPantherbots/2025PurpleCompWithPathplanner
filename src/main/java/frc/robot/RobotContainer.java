@@ -124,7 +124,7 @@ public class RobotContainer {
         ()-> climb.manualClimbMove(0.0), climb));
 
     wrist.setDefaultCommand(
-            new RunCommand(() -> wrist.closedLoopWrist(), wrist));
+            new RunCommand(() -> wrist.moveToSetpointSlower(), wrist));
     
     coral.setDefaultCommand(new RunCommand(() -> coral.intakeStop(), coral));
     algae.setDefaultCommand(new RunCommand(() -> algae.intakeStop(), algae));
@@ -165,6 +165,10 @@ public class RobotContainer {
 
     // reset the field-centric heading on start press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+    m_driverController.povLeft().onTrue(new StowAll(wrist, elevator));
+    m_driverController.povDown().onTrue(new CorralIntake(wrist, elevator));
+    m_driverController.povRight().onTrue(new CorralScoreL1Dump(wrist,elevator));
 
     drivetrain.registerTelemetry(logger::telemeterize);
 
