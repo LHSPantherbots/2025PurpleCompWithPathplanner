@@ -17,9 +17,7 @@ import frc.robot.util.OffsetDirection;
 public class AprilTagAlign2 extends Command {
   /** Creates a new AprilTagAlign. */
       
-  PIDController x_controller;
-  PIDController y_controller;
-  PIDController theta_controller;
+
   CommandSwerveDrivetrain drivetrain;
   Object[][] targetLocations = {{1, 16.3934,	1.0327, 306.0},  // blue origin location .5 meters in fron of every relevent target
                                 {2, 16.3934,	7.0098, 54.0},
@@ -147,9 +145,7 @@ public int getClosestTargetID(Pose2d currentPosition){
     if(distance<minDistance){
       closestTarget = currentTarget;
       minDistance = distance;
-      System.out.print(closestTarget);
-      System.out.print(": ");
-      System.out.println(minDistance);
+
     }
 
   } 

@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.SignalLogger;
@@ -40,6 +41,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+
+    private Optional<Alliance> alliance = DriverStation.getAlliance();  //Put somewhere else to check periodically
 
     
 
@@ -281,6 +284,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
+        this.alliance = DriverStation.getAlliance();
 
         SmartDashboard.putNumber("Front Left Swerve Position", this.getState().ModulePositions[0].angle.getDegrees());
         SmartDashboard.putNumber("Front Right Swerve Position", this.getState().ModulePositions[1].angle.getDegrees());
@@ -337,6 +341,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     ) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
     }
+
+    public Optional<Alliance> getAlliance() {
+        return this.alliance;
+    }
+
 
     
 }

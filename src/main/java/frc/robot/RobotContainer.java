@@ -33,7 +33,6 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeL2;
 import frc.robot.commands.AlgaeL3;
 import frc.robot.commands.AlgaeStowAll;
-import frc.robot.commands.AprilTagAlign;
 import frc.robot.commands.AprilTagAlign2;
 import frc.robot.commands.CorralIntake;
 import frc.robot.commands.CorralScoreL1Dump;
@@ -91,8 +90,7 @@ public class RobotContainer {
 
     //Drive to spot stuff
         double kDt = .02;
-        Optional<Alliance> alliance = DriverStation.getAlliance();
-  
+        
   
 
 
@@ -199,19 +197,22 @@ public class RobotContainer {
     // reset the field-centric heading on start press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
+    m_driverController.povUp().onTrue(new InstantCommand(()->drivetrain.resetPose(LimelightHelpers.getBotPose2d("limelight")),drivetrain));
+
     //m_driverController.y().whileTrue(new AprilTagAlign(drivetrain, OffsetDirection.RIGHT));
 
     //m_driverController.y().onTrue(new InstantCommand(()->this.resetControllers()));   
     m_driverController.y().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.CENTER));
+    m_driverController.x().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
 
-    if(alliance.get()==Alliance.Red){
+    if(drivetrain.getAlliance().get()==Alliance.Red){
     m_driverController.y()
         .whileTrue(drivetrain.applyRequest(() ->
     drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
         .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
         .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
 
-        m_driverController.x().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
+        
         m_driverController.x()
             .whileTrue(drivetrain.applyRequest(() ->
         drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
@@ -221,14 +222,14 @@ public class RobotContainer {
 
 
     
-    if(alliance.get()==Alliance.Blue){
+    if(drivetrain.getAlliance().get()==Alliance.Blue){
         m_driverController.y()
         .whileTrue(drivetrain.applyRequest(() ->
     drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
         .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
         .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
 
-        m_driverController.x().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
+   
         m_driverController.x()
             .whileTrue(drivetrain.applyRequest(() ->
         drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
