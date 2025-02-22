@@ -47,8 +47,8 @@ public class AprilTagAlign2 extends Command {
 
       Pose2d currentPosition;
       int targetNumber = 0;
-      double lengthFromTarget = 1.0;
-      double offestFromTarget = .2;
+      double lengthFromTarget = .6985;
+      double offestFromTarget = .1651;
       OffsetDirection offsetDirection = OffsetDirection.CENTER;
       int[] targets = {1,2,3,6,7,8,9,10,11,12,13,16,17,18,19,20,21,22};
 

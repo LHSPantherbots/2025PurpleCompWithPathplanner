@@ -161,7 +161,7 @@ public class WristSubsystem extends SubsystemBase{
       }
     
       public void setWristCoralL1Dump(){
-        setWristSetpoint(0.69-pivot_zero_offset);
+        setWristSetpoint(0.6);
       }
     
       public void setWristCoralL1(){
