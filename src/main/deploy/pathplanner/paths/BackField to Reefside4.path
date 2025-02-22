@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+
         "x": 7.19703947368421,
         "y": 6.140750000000001
       },
@@ -10,6 +11,7 @@
       "nextControl": {
         "x": 6.3292894736862575,
         "y": 6.140749999996392
+
       },
       "isLocked": false,
       "linkedName": "TopField"
