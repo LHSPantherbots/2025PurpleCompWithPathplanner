@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BackField to ReefSideLeftL4"
+            "pathName": "RightBackField to F-L4"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "CorralScoreL4"
+            "name": "CorralScoreL4_2"
           }
         },
         {
@@ -25,31 +25,32 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoStopIntakeCmd"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "StowAll"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ReefSideLeftL4 to BackFeeder"
+            "pathName": "F to RightFeeder"
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "CorralIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoIntakeCmd"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoIntakeCmd"
+                }
+              }
+            ]
           }
         }
       ]

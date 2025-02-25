@@ -7,25 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BackField to Reefside2"
+            "pathName": "BackField"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "CorralScoreL1Dump"
+            "name": "CorralIntake"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoOutakeCmd"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Reefside2 To Backfeeder"
+            "name": "AutoIntakeCmd"
           }
         }
       ]

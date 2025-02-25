@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BackField to Reefside2"
+            "pathName": "BackField to Reef Right Center"
           }
         },
         {
@@ -20,12 +20,6 @@
           "type": "named",
           "data": {
             "name": "AutoOutakeCmd"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Reefside2 To Backfeeder"
           }
         }
       ]

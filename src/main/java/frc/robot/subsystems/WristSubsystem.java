@@ -34,7 +34,7 @@ public class WristSubsystem extends SubsystemBase{
     private double pivot_zero_offset = .1078;  //wrist was zeroed vertically up 
                                             //agains the elevator for initial setpoints then was take above the top of the elevator and 
                                             //moved past the initial zero by this amount then rezeroed.
-    private double wristSetpoint = 0.75; //-pivot_zero_offset
+    private double wristSetpoint = 0.77; //-pivot_zero_offset
     private double allowableError = 0.1;
 
     private ShuffleboardTab tab = Shuffleboard.getTab("Tuning");  //angles used for shuffleboard; taken from 2024 fulcrum code
@@ -161,7 +161,7 @@ public class WristSubsystem extends SubsystemBase{
       }
     
       public void setWristCoralL1Dump(){
-        setWristSetpoint(0.6);
+        setWristSetpoint(0.65);
       }
     
       public void setWristCoralL1(){

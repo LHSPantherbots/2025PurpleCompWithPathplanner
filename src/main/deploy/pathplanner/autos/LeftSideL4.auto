@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BackField to Reefside2"
+            "pathName": "BackField to ReefSideLeftL4"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "CorralScoreL1Dump"
+            "name": "CorralScoreL4_2"
           }
         },
         {
@@ -23,9 +23,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Reefside2 To Backfeeder"
+            "name": "StowAll"
           }
         }
       ]

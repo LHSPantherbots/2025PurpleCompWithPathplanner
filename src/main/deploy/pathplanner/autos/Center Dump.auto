@@ -13,7 +13,13 @@
         {
           "type": "named",
           "data": {
-            "name": "dumpL1"
+            "name": "CorralScoreL1Dump"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
           }
         }
       ]

@@ -5,15 +5,27 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "New Path"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "dumpL1"
+            "name": "CorralScoreL4_2"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StowAll"
           }
         }
       ]
