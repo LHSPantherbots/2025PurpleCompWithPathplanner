@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BackField to ReefSideLeftL4"
+            "pathName": "Right Back to F-L4"
           }
         },
         {
@@ -26,6 +26,31 @@
           "type": "named",
           "data": {
             "name": "StowAll"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F to Right Feeder"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoIntakeCmd"
+                }
+              }
+            ]
           }
         }
       ]

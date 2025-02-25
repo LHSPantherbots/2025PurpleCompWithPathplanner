@@ -7,49 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BackField to Reefside3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CorralScoreL4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoOutakeCmd"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StowAll"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Reefside3 To BackFeeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CorralIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoIntakeCmd"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BackFeeder to Reefside3"
+            "pathName": "Left Dump"
           }
         },
         {
@@ -62,6 +20,48 @@
           "type": "named",
           "data": {
             "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Dump to Left Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StowAll"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Feeder to K"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CorralScoreL4_2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StowAll"
           }
         }
       ]
