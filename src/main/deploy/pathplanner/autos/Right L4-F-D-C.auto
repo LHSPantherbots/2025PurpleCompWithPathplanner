@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Back to I-L4"
+            "pathName": "Right Back to F-L4"
           }
         },
         {
@@ -25,7 +25,32 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoStopIntakeCmd"
+            "name": "StowAll"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F to Right Feeder"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoIntakeCmd"
+                }
+              }
+            ]
           }
         },
         {
@@ -37,31 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "I to Left Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CorralIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoIntakeCmd"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StowAll"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Left Feeder to K"
+            "pathName": "Right Feeder to D"
           }
         },
         {
@@ -79,7 +80,56 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoStopIntakeCmd"
+            "name": "StowAll"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D to Right Feeder"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoIntakeCmd"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StowAll"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Feeder to C"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CorralScoreL4_2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
           }
         },
         {
