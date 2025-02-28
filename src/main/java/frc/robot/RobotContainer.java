@@ -145,8 +145,8 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(
     //         // Drivetrain will execute this command periodically
              drivetrain.applyRequest(() ->
-                 drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                     .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                 drive.withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                     .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                      .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
              )
          );
@@ -168,6 +168,12 @@ public class RobotContainer {
     leds.setDefaultCommand(new RunCommand(() -> leds.ledState(), leds));
 
 
+    m_driverController.rightTrigger().whileTrue(
+        new RunCommand(
+            () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband)),
+            climb));
+
+
 
 
     //************  DRIVER CONTROLLER  ****************
@@ -180,14 +186,14 @@ public class RobotContainer {
     m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
     
     //PROBABLY REMOVE THIS ONE
-    m_driverController.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))
-    ));
+    //m_driverController.b().whileTrue(drivetrain.applyRequest(() ->
+    //        point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))
+    //));
 
     //Slow Mode
     m_driverController.rightBumper().whileTrue(drivetrain.applyRequest(() ->
-    drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * .25) // Drive forward with negative Y (forward)
-        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed * .25) // Drive left with negative X (left)
+    drive.withVelocityX(m_driverController.getLeftY() * MaxSpeed * .25) // Drive forward with negative Y (forward)
+        .withVelocityY(m_driverController.getLeftX() * MaxSpeed * .25) // Drive left with negative X (left)
         .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate * .25)));
 
     // Run SysId routines when holding back/start and X/Y.
@@ -210,6 +216,7 @@ public class RobotContainer {
     //m_driverController.y().onTrue(new InstantCommand(()->this.resetControllers()));   
     m_driverController.y().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.CENTER));
     m_driverController.x().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
+    m_driverController.b().onTrue(new AprilTagAlign2(drivetrain,OffsetDirection.RIGHT));
 
     if(drivetrain.getAlliance().get()==Alliance.Red){
     m_driverController.y()
@@ -220,6 +227,12 @@ public class RobotContainer {
 
         
         m_driverController.x()
+            .whileTrue(drivetrain.applyRequest(() ->
+        drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+            .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+
+            m_driverController.b()
             .whileTrue(drivetrain.applyRequest(() ->
         drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
             .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
@@ -241,7 +254,15 @@ public class RobotContainer {
         drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
             .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
             .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+
+            m_driverController.b()
+            .whileTrue(drivetrain.applyRequest(() ->
+        drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+            .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
     }
+
+
     
         
     
@@ -277,7 +298,7 @@ public class RobotContainer {
 
     m_operatorController.povRight().onTrue(new CorralScoreL4(wrist, elevator));
 
-    if (leds.getRobotStatus() == Position.CORAL_L4){ ////This is triying to flip the coral onto L4
+    if (leds.getRobotStatus() == Position.CORAL_L4){ ////This is triying to flip the coral onto L4  //NEED TO FIX THIS  THIS SHOULD BE INTAKE
          m_operatorController.rightBumper().whileTrue(new CorralScoreL4Flip(wrist,elevator,coral));
     }else{
          m_operatorController.rightBumper().whileTrue(new RunCommand(() -> coral.intake(), coral));
@@ -296,12 +317,15 @@ public class RobotContainer {
     m_operatorController.x().whileTrue(new RunCommand(()-> algae.outtake(), algae));
 
     m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> wrist.manualWristMove(-m_operatorController.getRightY()*.25), wrist));
+    m_operatorController.leftTrigger().onFalse(new InstantCommand(() ->wrist.setWirstSetpointToCurrentPosition(),wrist));
 
     m_operatorController.y().onTrue(new AlgaeL3(wrist, elevator));
 
     m_operatorController.b().onTrue(new AlgaeL2(wrist, elevator));
 
     m_operatorController.start().onTrue(new AlgaeStowAll(wrist, elevator));
+
+
 
 
     

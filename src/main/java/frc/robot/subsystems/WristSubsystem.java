@@ -135,6 +135,10 @@ public class WristSubsystem extends SubsystemBase{
         return wristSetpoint;
     }
 
+    public void setWirstSetpointToCurrentPosition(){
+      setWristSetpoint(e_WristEncoder.getPosition());
+    }
+
 
     public void closedLoopWrist() {
         // m_FulcrumRight.set(m_Controller.calculate(e_FulcrumEncoder.getPosition(),
