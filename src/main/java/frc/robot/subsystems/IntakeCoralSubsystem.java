@@ -40,6 +40,10 @@ public class IntakeCoralSubsystem extends SubsystemBase{
       m_IntakeCoral.set(.8); //test this (it was .6)
     }
 
+    public void outtakeSlow() {
+      m_IntakeCoral.set(.4); //test this (it was .6)
+    }
+
     public void intakeStop() {
       m_IntakeCoral.set(0);
     }

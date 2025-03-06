@@ -147,7 +147,7 @@ public class RobotContainer {
              drivetrain.applyRequest(() ->
                  drive.withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
                      .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                     .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                     .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate*2.0) // Drive counterclockwise with negative X (left)
              )
          );
 
@@ -168,10 +168,7 @@ public class RobotContainer {
     leds.setDefaultCommand(new RunCommand(() -> leds.ledState(), leds));
 
 
-    m_driverController.rightTrigger().whileTrue(
-        new RunCommand(
-            () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband)),
-            climb));
+
 
 
 
@@ -209,7 +206,9 @@ public class RobotContainer {
     // reset the field-centric heading on start press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-    m_driverController.povUp().onTrue(new InstantCommand(()->drivetrain.resetPose(LimelightHelpers.getBotPose2d_wpiBlue("limelight")),drivetrain));
+    m_driverController.povDown().onTrue(new InstantCommand(()->drivetrain.resetPose(LimelightHelpers.getBotPose2d_wpiBlue("limelight-tree")),drivetrain));
+
+    m_driverController.povUp().whileTrue(new RunCommand(() -> coral.outtakeSlow(), coral));
 
     //m_driverController.y().whileTrue(new AprilTagAlign(drivetrain, OffsetDirection.RIGHT));
 
@@ -324,6 +323,11 @@ public class RobotContainer {
     m_operatorController.b().onTrue(new AlgaeL2(wrist, elevator));
 
     m_operatorController.start().onTrue(new AlgaeStowAll(wrist, elevator));
+
+    m_operatorController.rightTrigger().whileTrue(
+        new RunCommand(
+            () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband)),
+            climb));
 
 
 

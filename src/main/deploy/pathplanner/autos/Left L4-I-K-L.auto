@@ -35,22 +35,15 @@
           }
         },
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "CorralIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoIntakeCmd"
-                }
-              }
-            ]
+            "name": "CorralIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeCmd"
           }
         },
         {
@@ -90,22 +83,15 @@
           }
         },
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "CorralIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoIntakeCmd"
-                }
-              }
-            ]
+            "name": "CorralIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeCmd"
           }
         },
         {
