@@ -36,6 +36,7 @@ import frc.robot.commands.AlgaeL2;
 import frc.robot.commands.AlgaeL3;
 import frc.robot.commands.AlgaeStowAll;
 import frc.robot.commands.AprilTagAlign2;
+import frc.robot.commands.AutoAlignMove;
 import frc.robot.commands.CorralIntake;
 import frc.robot.commands.CorralScoreL1Dump;
 import frc.robot.commands.CorralScoreL2;
@@ -129,6 +130,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("CorralIntake", new CorralIntake(wrist, elevator).withTimeout(1));
         NamedCommands.registerCommand("AutoStopIntakeCmd", new RunCommand(() -> coral.intakeStop(), coral).withTimeout(.5));
         NamedCommands.registerCommand("CorralScoreL4_2", new CorralScoreL4_2(wrist, elevator).withTimeout(3));
+        // NamedCommands.registerCommand("AprilTagAlign2Left", new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
+        // NamedCommands.registerCommand("AprilTagAlign2Right", new AprilTagAlign2(drivetrain, OffsetDirection.RIGHT));
     
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -211,37 +214,39 @@ public class RobotContainer {
     m_driverController.y().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.CENTER));
     m_driverController.x().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
 
-    if(drivetrain.getAlliance().get()==Alliance.Red){
-    m_driverController.y()
-        .whileTrue(drivetrain.applyRequest(() ->
-    drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-        .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+    // if(drivetrain.getAlliance().get()==Alliance.Red){
+    // m_driverController.y()
+    //     .whileTrue(drivetrain.applyRequest(() ->
+    // drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+    //     .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+    //     .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
 
         
-        m_driverController.x()
-            .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-            .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
-    }
+    //     m_driverController.x()
+    //         .whileTrue(drivetrain.applyRequest(() ->
+    //     drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+    //         .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+    //         .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+    // }
+
+    //m_driverController.y().onTrue(new AutoAlignMove(drivetrain, drivetrain.getAlliance(), desiredPosition, OffsetDirection.CENTER));
 
 
     
-    if(drivetrain.getAlliance().get()==Alliance.Blue){
-        m_driverController.y()
-        .whileTrue(drivetrain.applyRequest(() ->
-    drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-        .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+    // if(drivetrain.getAlliance().get()==Alliance.Blue){
+    //     m_driverController.y()
+    //     .whileTrue(drivetrain.applyRequest(() ->
+    // drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+    //     .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+    //     .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
 
    
-        m_driverController.x()
-            .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-            .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
-    }
+    //     m_driverController.x()
+    //         .whileTrue(drivetrain.applyRequest(() ->
+    //     drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+    //         .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+    //         .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+    // }
     
         
     

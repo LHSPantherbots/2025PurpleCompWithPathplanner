@@ -13,6 +13,12 @@
         {
           "type": "named",
           "data": {
+            "name": "AprilTagAlign2Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "CorralScoreL4_2"
           }
         },
