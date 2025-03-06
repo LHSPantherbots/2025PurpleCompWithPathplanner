@@ -73,6 +73,7 @@ public class AprilTagAlign2 extends Command {
     currentPosition = drivetrain.getState().Pose;
     double tagNumber = getClosestTargetID(currentPosition);
     this.targetNumber = (int)Math.round(tagNumber); //Makes Fiducial ID a integer instead of a network tables double
+    this.drivetrain.setAllianceCoefficent();
 
     desiredPosition = drivetrain.getState().Pose;
     

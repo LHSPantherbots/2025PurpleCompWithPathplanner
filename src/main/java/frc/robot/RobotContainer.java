@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -129,6 +130,18 @@ public class RobotContainer {
         NamedCommands.registerCommand("CorralIntake", new CorralIntake(wrist, elevator).withTimeout(1));
         NamedCommands.registerCommand("AutoStopIntakeCmd", new RunCommand(() -> coral.intakeStop(), coral).withTimeout(.5));
         NamedCommands.registerCommand("CorralScoreL4_2", new CorralScoreL4_2(wrist, elevator).withTimeout(3));
+        NamedCommands.registerCommand("SetupAutoAlignLeft", new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
+        NamedCommands.registerCommand("AprilTagAutoDrive",
+        
+        
+        drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.getAllianceCoefficent()*x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
+            .withVelocityY(drivetrain.getAllianceCoefficent()*y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())))
+
+        
+        );
+        
     
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);

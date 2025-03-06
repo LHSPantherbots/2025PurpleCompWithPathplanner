@@ -46,9 +46,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     //cfg.CurrentLimits.SupplyTimeThreshold = 5; //Amont of time to allow current over supply limit
     cfg.CurrentLimits.SupplyCurrentLimitEnable = true;
     cfg.CurrentLimits.SupplyCurrentLimit = 60; //Supply Current Limit
-    cfg.MotionMagic.MotionMagicCruiseVelocity = 50; // 5 rotations per second cruise
-    cfg.MotionMagic.MotionMagicAcceleration = 100; // Take approximately 0.5 seconds to reach max vel
-    cfg.MotionMagic.MotionMagicJerk = 1000;// Take approximately 0.2 seconds to reach max accel 
+    cfg.MotionMagic.MotionMagicCruiseVelocity = 50*1.8; // 5 rotations per second cruise    
+    cfg.MotionMagic.MotionMagicAcceleration = 100*1.8; // Take approximately 0.5 seconds to reach max vel
+    cfg.MotionMagic.MotionMagicJerk = 1000*1.8;// Take approximately 0.2 seconds to reach max accel 
     cfg.TorqueCurrent.PeakForwardTorqueCurrent = 50; //Current Limit value used in FOC Torque Mode
     cfg.TorqueCurrent.PeakReverseTorqueCurrent = 50; //Current Limit value used in FOC Torque Mode
 

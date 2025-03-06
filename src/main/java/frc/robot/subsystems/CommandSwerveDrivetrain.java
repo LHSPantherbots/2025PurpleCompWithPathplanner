@@ -44,6 +44,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private double m_lastSimTime;
 
     private Optional<Alliance> alliance = DriverStation.getAlliance();  //Put somewhere else to check periodically
+    private double allianceCoefficent = 1.0; //1.0 Red  -1.0 Blue
 
     
 
@@ -355,6 +356,25 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     public Optional<Alliance> getAlliance() {
         return this.alliance;
+    }
+
+    public boolean isAllianceRed(){
+    
+        return (this.getAlliance().get()==Alliance.Red);
+
+    }
+
+    public void setAllianceCoefficent(){
+        if((this.getAlliance().get()==Alliance.Red)){
+        this.allianceCoefficent = 1.0;
+        }
+        if((this.getAlliance().get()==Alliance.Blue)){
+            this.allianceCoefficent = -1.0;
+            }
+    }
+
+    public double getAllianceCoefficent(){
+        return allianceCoefficent;
     }
 
 
