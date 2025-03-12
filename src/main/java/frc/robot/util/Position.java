@@ -19,7 +19,8 @@ package frc.robot.util;
     ALGAE_L2,
     ALGAE_L3,
     ALGAE_STOW,
-    HOLD
+    HOLD,
+    LIMELIGHTTARGET
   }
 
 

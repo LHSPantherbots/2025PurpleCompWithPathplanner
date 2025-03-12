@@ -141,7 +141,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setElevatorCoralIntake(){
-    setElevatorSetpoint(10.0);
+    setElevatorSetpoint(10);
   }
 
   public void setElevatorCoralL1Dump(){
@@ -157,7 +157,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setElevatorCoralL3(){
-    setElevatorSetpoint(42.5); //31.5
+    setElevatorSetpoint(43); //42.5
   }
 
   public void setElevatorCoralL4(){

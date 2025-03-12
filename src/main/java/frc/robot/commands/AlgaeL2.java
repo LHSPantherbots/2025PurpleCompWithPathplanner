@@ -23,8 +23,8 @@ public class AlgaeL2 extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorCmd(Position.ALGAE_L2, elevator),
-      new WristCmd(Position.ALGAE_L2, wrist),
-      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.ALGAE_L2), RobotContainer.leds)
+      new WristCmd(Position.ALGAE_L2, wrist)
+      //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.ALGAE_L2), RobotContainer.leds)
     );
   }
 }

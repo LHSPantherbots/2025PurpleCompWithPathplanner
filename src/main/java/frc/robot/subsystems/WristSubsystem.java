@@ -181,7 +181,7 @@ public class WristSubsystem extends SubsystemBase{
       }
     
       public void setWristCoralL4(){
-        setWristSetpoint(0.62);
+        setWristSetpoint(0.61); // Was .62
       }
     
       public void setWristAlgaeL2(){

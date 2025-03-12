@@ -27,8 +27,8 @@ public class CorralScoreL4Flip extends ParallelCommandGroup {
     addCommands(
       new ElevatorCmd(Position.CORAL_L4, elevator),
       new WristCmd(Position.CORAL_L3, wrist),
-      new RunCommand(()->coral.outtake(), coral),
-      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L4), RobotContainer.leds)
+      new RunCommand(()->coral.outtake(), coral)
+      //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L4), RobotContainer.leds)
     );
   }
 }

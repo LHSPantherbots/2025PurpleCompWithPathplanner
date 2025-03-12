@@ -25,13 +25,19 @@
         {
           "type": "named",
           "data": {
-            "name": "CorralScoreL1Dump"
+            "name": "CorralScoreL4_2"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StowAll"
           }
         }
       ]

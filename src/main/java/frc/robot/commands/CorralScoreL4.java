@@ -23,8 +23,8 @@ public class CorralScoreL4 extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorCmd(Position.CORAL_L4, elevator),
-      new WristCmd(Position.CORAL_L4, wrist),
-      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L4), RobotContainer.leds)
+      new WristCmd(Position.CORAL_L4, wrist)
+      //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L4), RobotContainer.leds)
     );
   }
 }

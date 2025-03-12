@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDs;
+import frc.robot.LimelightHelpers;
 import frc.robot.util.Position;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -18,6 +19,7 @@ public class Leds extends SubsystemBase {
   private AddressableLEDBuffer m_ledBuffer;
   // Store what the last hue of the first pixel is
   private int m_rainbowFirstPixelHue;
+  private int m_panreefscpePixelHue;
 
   private int temp_Blue = 0;
   private int temp_Green = 0;
@@ -47,7 +49,12 @@ public class Leds extends SubsystemBase {
   @Override
   public void periodic() {
 
-    
+    if(LimelightHelpers.getTargetCount("limelight-tree") > 1){
+      this.setRobotStatus(Position.LIMELIGHTTARGET);
+    }
+    else{
+      this.setRobotStatus(Position.STOW);
+    }
   }
 
   public void ledsOff() {
@@ -72,6 +79,25 @@ public class Leds extends SubsystemBase {
 
     m_led.setData(m_ledBuffer);
   }
+
+  // public void panther_reefscape() {  //TODO: make leds similar to rainbow but is from aqua to blue to purple
+  //   // For every pixel
+  //   for (int i = 0; i < m_ledBuffer.getLength(); i++) {
+  //     // Calculate the hue - hue is easier for rainbows because the color
+  //     // shape is a circle so only one value needs to precess
+  //     int hue = (m_panreefscpePixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+  //       m_ledBuffer.setHSV(i, hue, 255, 128);
+  //   }
+  //   // Increase by to make the rainbow "move"
+    
+  //     m_panreefscpePixelHue += 3;
+  //     // Check bounds
+  //     m_panreefscpePixelHue %= 180;
+
+    
+
+  //   m_led.setData(m_ledBuffer);
+  // }
 
   public void pantherStreak() {
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -481,6 +507,9 @@ public void purpleStreak10() {
           break;
         case HOLD:
           green();
+          break;
+        case LIMELIGHTTARGET:
+          purpleFlash();
           break;
       }
         

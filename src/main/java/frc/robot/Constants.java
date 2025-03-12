@@ -74,6 +74,13 @@ public final class Constants {
     public static final int white_Hue = 0;
     public static final int white_Sat = 0;
     public static final int white_Val = 100;
+
+    public static final int aqua_Red = 72;
+    public static final int aqua_Green = 255;
+    public static final int aqua_Blue = 200;
+    public static final int aqua_Hue = 162;
+    public static final int aqua_Sat = 72;
+    public static final int aqua_Val = 100;
   }
 
 }

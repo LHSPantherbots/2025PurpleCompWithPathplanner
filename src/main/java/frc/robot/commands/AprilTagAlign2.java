@@ -47,7 +47,9 @@ public class AprilTagAlign2 extends Command {
 
       Pose2d currentPosition;
       int targetNumber = 0;
-      double lengthFromTarget = .6985;
+      double lengthFromTarget = .6985; // was .6985
+      double lengthFromTargetReef = .6477; // was .6739
+      double lengthFromTargetFeeder = .4445; // was .4953
       double offestFromTarget = .1651;
       OffsetDirection offsetDirection = OffsetDirection.CENTER;
       int[] targets = {1,2,3,6,7,8,9,10,11,12,13,16,17,18,19,20,21,22};
@@ -168,12 +170,14 @@ public Pose2d getTargetPosition(int target, double lengthFromTarget, double offs
             x_inches = 656.98;
             y_inches = 24.73;
             theta_deg = 126.0;
+            lengthFromTarget = lengthFromTargetFeeder;
 
           break;
           case 2:
             x_inches = 656.98;
             y_inches = 291.90;
             theta_deg = 234.0;
+            lengthFromTarget = lengthFromTargetFeeder;
 
           break;
           case 3:
@@ -181,84 +185,100 @@ public Pose2d getTargetPosition(int target, double lengthFromTarget, double offs
             x_inches = 452.40;
             y_inches = 316.21;
             theta_deg = 270;
+            lengthFromTarget = lengthFromTargetFeeder;
 
           break;
           case 6:
             x_inches = 530.49;
             y_inches = 130.17;
             theta_deg = 300.0;
+            lengthFromTarget = lengthFromTargetReef;
             break;
 
           case 7:
                 x_inches = 546.87;
                 y_inches = 158.50;
                 theta_deg = 0.0;
+                lengthFromTarget = lengthFromTargetReef;
                 break;
           case 8:
             x_inches = 530.49;
             y_inches = 186.83;
             theta_deg = 60.0;
+            lengthFromTarget = lengthFromTargetReef;
             break;
 
           case 9:
             x_inches = 497.77;
             y_inches = 186.83;
             theta_deg = 120.0;
+            lengthFromTarget = lengthFromTargetReef;
             break;
           case 10:
             x_inches = 481.39;
             y_inches = 158.50;
             theta_deg = 180.0;
+            lengthFromTarget = lengthFromTargetReef;
             break;
           case 11:
             x_inches = 497.77;
             y_inches = 130.17;
             theta_deg = 240.0;
+            lengthFromTarget = lengthFromTargetReef;
             break;
           case 12:
             x_inches = 33.91;
             y_inches = 24.73;
             theta_deg = 54.0;
+            lengthFromTarget = lengthFromTargetFeeder;
             break;
           case 13:
             x_inches = 33.91;
             y_inches = 291.90;
             theta_deg = 306.0;
+            lengthFromTarget = lengthFromTargetFeeder;
             break;
           case 16:
             x_inches = 238.49;
             y_inches = .42;
             theta_deg = 90;
+            lengthFromTarget = lengthFromTargetReef;
             break;
           case 17:
             x_inches = 160.39;
             y_inches = 130.17;
             theta_deg = 240.0;
+            lengthFromTarget = lengthFromTargetReef;
               break;
           case 18:
             x_inches = 144.0;
             y_inches = 158.5;
             theta_deg = 180.0;
+            lengthFromTarget = lengthFromTargetReef;
             break;
           case 19:
             x_inches = 160.39;
             y_inches = 186.83;
             theta_deg = 120;
+            lengthFromTarget = lengthFromTargetReef;
             break;
           case 20:
             x_inches = 193.1;
             y_inches = 186.83;
             theta_deg = 60;
+            lengthFromTarget = lengthFromTargetReef;
             break;
           case 21:
             x_inches = 209.49;
             y_inches = 158.5;
             theta_deg = 0;
+            lengthFromTarget = lengthFromTargetReef;
             break;
           case 22:
             x_inches = 193.1;
             y_inches = 130.17;
             theta_deg = 300.0;
+            lengthFromTarget = lengthFromTargetReef;
             break;
           default:
             x_inches = 0;

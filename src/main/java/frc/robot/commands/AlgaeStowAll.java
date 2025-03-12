@@ -26,8 +26,8 @@ public class AlgaeStowAll extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorCmd(Position.ALGAE_STOW, elevator),
-      new WristCmd(Position.ALGAE_STOW, wrist),
-      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.ALGAE_STOW), RobotContainer.leds)
+      new WristCmd(Position.ALGAE_STOW, wrist)
+      //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.ALGAE_STOW), RobotContainer.leds)
     );
   }
 }
