@@ -25,13 +25,7 @@
         {
           "type": "named",
           "data": {
-            "name": "CorralScoreL4_2"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
+            "name": "CorralScoreL2"
           }
         },
         {

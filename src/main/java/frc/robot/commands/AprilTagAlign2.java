@@ -48,7 +48,7 @@ public class AprilTagAlign2 extends Command {
       Pose2d currentPosition;
       int targetNumber = 0;
       double lengthFromTarget = .6985; // was .6985
-      double lengthFromTargetReef = .6477; // was .6739
+      double lengthFromTargetReef = .6223; // was .6477
       double lengthFromTargetFeeder = .4445; // was .4953
       double offestFromTarget = .1651;
       OffsetDirection offsetDirection = OffsetDirection.CENTER;
