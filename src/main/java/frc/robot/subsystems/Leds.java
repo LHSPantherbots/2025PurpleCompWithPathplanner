@@ -6,6 +6,7 @@ import frc.robot.LimelightHelpers;
 import frc.robot.util.Position;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Leds extends SubsystemBase {
@@ -52,9 +53,11 @@ public class Leds extends SubsystemBase {
     if(LimelightHelpers.getTargetCount("limelight-tree") > 1){
       this.setRobotStatus(Position.LIMELIGHTTARGET);
     }
-    else{
-      this.setRobotStatus(Position.STOW);
+    else if (this.getRobotStatus() == Position.LIMELIGHTTARGET){
+      this.setRobotStatus(this.getPrevRobotStatus());
     }
+    SmartDashboard.putString("currentRobotStatus", this.getRobotStatus().toString());
+    SmartDashboard.putString("previousRobotStatus", this.getPrevRobotStatus().toString());
   }
 
   public void ledsOff() {
@@ -459,7 +462,9 @@ public void purpleStreak10() {
 
 
    public void setRobotStatus(Position newState){
-     this.prevState = this.state;
+    if(this.state != newState){
+      this.prevState = this.state;
+    }
      this.state = newState;   }
 
    public Position getRobotStatus(){

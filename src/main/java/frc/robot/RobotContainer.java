@@ -41,6 +41,7 @@ import frc.robot.commands.AutoClimb;
 import frc.robot.commands.CorralIntake;
 import frc.robot.commands.CorralScoreL1Dump;
 import frc.robot.commands.CorralScoreL2;
+import frc.robot.commands.CorralScoreL2Teleop;
 import frc.robot.commands.CorralScoreL3;
 import frc.robot.commands.CorralScoreL4;
 import frc.robot.commands.CorralScoreL4Flip;
@@ -123,14 +124,14 @@ public class RobotContainer {
         theta_controller.enableContinuousInput(0.0,Math.PI*2.0);
         NamedCommands.registerCommand("AutoIntakeCmd", new AutoIntakeCmd(coral));
         NamedCommands.registerCommand("CorralScoreL1Dump", new CorralScoreL1Dump(wrist, elevator).withTimeout(1));
-        NamedCommands.registerCommand("CorralScoreL2", new CorralScoreL2(wrist, elevator).withTimeout(.6));
+        NamedCommands.registerCommand("CorralScoreL2", new CorralScoreL2(wrist, elevator).withTimeout(1));
         NamedCommands.registerCommand("CorralScoreL3", new CorralScoreL3(wrist, elevator).withTimeout(.25));
         NamedCommands.registerCommand("CorralScoreL4", new CorralScoreL4(wrist, elevator).withTimeout(2));
         NamedCommands.registerCommand("StowAll", new StowAll(wrist, elevator).withTimeout(.25));
-        NamedCommands.registerCommand("AutoOutakeCmd", new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));
-        NamedCommands.registerCommand("CorralIntake", new CorralIntake(wrist, elevator).withTimeout(1));
+        NamedCommands.registerCommand("AutoOutakeCmd", new RunCommand(() -> coral.outtake(), coral).withTimeout(.5));
+        NamedCommands.registerCommand("CorralIntake", new CorralIntake(wrist, elevator).withTimeout(1.0));
         NamedCommands.registerCommand("AutoStopIntakeCmd", new RunCommand(() -> coral.intakeStop(), coral).withTimeout(.25));
-        NamedCommands.registerCommand("CorralScoreL4_2", new CorralScoreL4_2(wrist, elevator).withTimeout(2));
+        NamedCommands.registerCommand("CorralScoreL4_2", new CorralScoreL4_2(wrist, elevator).withTimeout(2.0));
         NamedCommands.registerCommand("SetupAutoAlignLeft", new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
         NamedCommands.registerCommand("SetupAutoAlignRight", new AprilTagAlign2(drivetrain, OffsetDirection.RIGHT));
         NamedCommands.registerCommand("SetupAutoAlignCenter", new AprilTagAlign2(drivetrain, OffsetDirection.CENTER));
@@ -140,7 +141,7 @@ public class RobotContainer {
         drivetrain.applyRequest(() ->
         drive.withVelocityX(drivetrain.getAllianceCoefficent()*x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
             .withVelocityY(drivetrain.getAllianceCoefficent()*y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))).withTimeout(.5)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))).withTimeout(1.0)
         );
         NamedCommands.registerCommand("AutoDiveStop",
         drivetrain.applyRequest(() ->
@@ -313,22 +314,22 @@ public class RobotContainer {
 
     m_operatorController.povDown().onTrue(new CorralIntake(wrist, elevator));  //Intake/Stow
     
-    m_operatorController.povLeft().onTrue(new CorralScoreL2(wrist, elevator));
+    m_operatorController.povLeft().onTrue(new CorralScoreL2Teleop(wrist, elevator));
 
     m_operatorController.povUp().onTrue(new CorralScoreL3(wrist, elevator));
 
     m_operatorController.povRight().onTrue(new CorralScoreL4(wrist, elevator));
 
-    if (leds.getRobotStatus() == Position.CORAL_L4){ ////This is triying to flip the coral onto L4  //NEED TO FIX THIS  THIS SHOULD BE INTAKE
-         m_operatorController.rightBumper().whileTrue(new CorralScoreL4Flip(wrist,elevator,coral));
-    }else{
          m_operatorController.rightBumper().whileTrue(new RunCommand(() -> coral.intake(), coral));
-    }
 
     //m_operatorController.rightBumper().onTrue(new AutoIntakeCmd(coral));
 
-    
-    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> coral.outtake(), coral));
+    // if(leds.getRobotStatus() == Position.CORAL_L4){
+    //     m_operatorController.leftBumper().onTrue(new CorralScoreL4Flip(wrist,elevator,coral));
+    // }
+    // else{
+        m_operatorController.leftBumper().whileTrue(new RunCommand(() -> coral.outtake(), coral));
+    // }
 
     //m_operatorController.leftBumper().onTrue(new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));
 

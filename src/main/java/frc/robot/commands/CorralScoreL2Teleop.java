@@ -6,9 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
@@ -17,17 +14,17 @@ import frc.robot.util.Position;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CorralScoreL4_2 extends SequentialCommandGroup {
+public class CorralScoreL2Teleop extends ParallelCommandGroup {
 
-  public CorralScoreL4_2(
+  public CorralScoreL2Teleop(
       WristSubsystem wrist,
       ElevatorSubsystem elevator) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelRaceGroup(new ElevatorCmd(Position.CORAL_L4, elevator,true), new WristCmd(Position.STOW, wrist)),
-      new WristCmd(Position.CORAL_L4, wrist),
-      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L4), RobotContainer.leds)
+      new ElevatorCmd(Position.CORAL_L2, elevator),
+      new WristCmd(Position.CORAL_L2, wrist),
+      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L2), RobotContainer.leds)
     );
   }
 }

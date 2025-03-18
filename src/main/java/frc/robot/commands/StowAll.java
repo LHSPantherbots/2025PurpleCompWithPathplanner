@@ -26,8 +26,8 @@ public class StowAll extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorCmd(Position.STOW, elevator),
-      new WristCmd(Position.STOW, wrist)
-      //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.STOW), RobotContainer.leds)
+      new WristCmd(Position.STOW, wrist),
+      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.STOW), RobotContainer.leds)
     );
   }
 }

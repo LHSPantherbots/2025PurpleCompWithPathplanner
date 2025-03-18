@@ -14,6 +14,7 @@ package frc.robot.util;
     CORAL_L1_DUMP,
     CORAL_L1,
     CORAL_L2,
+    AUTOCORAL_L2,
     CORAL_L3,
     CORAL_L4,
     ALGAE_L2,

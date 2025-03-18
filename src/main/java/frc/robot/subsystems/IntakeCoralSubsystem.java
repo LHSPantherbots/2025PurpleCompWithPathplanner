@@ -7,7 +7,11 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeCoralConstants;
+import frc.robot.subsystems.Leds;
+import frc.robot.util.Position;
+
 
 public class IntakeCoralSubsystem extends SubsystemBase{
   private final SparkMax m_IntakeCoral;
@@ -37,7 +41,12 @@ public class IntakeCoralSubsystem extends SubsystemBase{
     }
 
     public void outtake() {
-      m_IntakeCoral.set(.8); //test this (it was .6)
+      if(RobotContainer.leds.getRobotStatus() == Position.CORAL_L3  || RobotContainer.leds.getRobotStatus() == Position.CORAL_L2){
+        m_IntakeCoral.set(.5);
+      }
+      else if(!(RobotContainer.leds.getRobotStatus() == Position.CORAL_L3  || RobotContainer.leds.getRobotStatus() == Position.CORAL_L2)){
+        m_IntakeCoral.set(.8); //test this (it was .6)
+      }
     }
 
     public void outtakeSlow() {

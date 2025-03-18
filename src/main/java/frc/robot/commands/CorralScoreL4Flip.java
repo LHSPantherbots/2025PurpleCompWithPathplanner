@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeCoralSubsystem;
@@ -26,8 +27,7 @@ public class CorralScoreL4Flip extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorCmd(Position.CORAL_L4, elevator),
-      new WristCmd(Position.CORAL_L3, wrist),
-      new RunCommand(()->coral.outtake(), coral)
+      new RunCommand(()->coral.outtake(), coral).withTimeout(.25).andThen(new WristCmd(Position.STOW, wrist))
       //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L4), RobotContainer.leds)
     );
   }

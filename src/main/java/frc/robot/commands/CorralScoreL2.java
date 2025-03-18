@@ -22,9 +22,9 @@ public class CorralScoreL2 extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ElevatorCmd(Position.CORAL_L2, elevator),
-      new WristCmd(Position.CORAL_L2, wrist)
-      //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L2), RobotContainer.leds)
+      new ElevatorCmd(Position.AUTOCORAL_L2, elevator),
+      new WristCmd(Position.CORAL_L2, wrist),
+      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L2), RobotContainer.leds)
     );
   }
 }

@@ -52,6 +52,9 @@ public class ElevatorCmd extends Command {
       case CORAL_L2:
         this.elevator.setElevatorCoralL2();
         break;
+      case AUTOCORAL_L2:
+        this.elevator.setAutoElevatorCoralL2();
+        break;
       case CORAL_L3:
         this.elevator.setElevatorCoralL3();
         break;

@@ -24,8 +24,8 @@ public class CorralIntake extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorCmd(Position.CORAL_INTAKE, elevator),
-      new WristCmd(Position.CORAL_INTAKE, wrist)
-      //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_INTAKE), RobotContainer.leds)
+      new WristCmd(Position.CORAL_INTAKE, wrist),
+      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_INTAKE), RobotContainer.leds)
     );
   }
 }

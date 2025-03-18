@@ -25,7 +25,7 @@
         {
           "type": "named",
           "data": {
-            "name": "CorralScoreL2"
+            "name": "CorralScoreL4_2"
           }
         },
         {
@@ -35,21 +35,34 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "AutoStopIntakeCmd"
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "StowAll"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "F to Right Feeder"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StowAll"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "F to Right Feeder"
+                }
+              }
+            ]
           }
         },
         {
@@ -111,6 +124,12 @@
           "type": "named",
           "data": {
             "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
           }
         },
         {
