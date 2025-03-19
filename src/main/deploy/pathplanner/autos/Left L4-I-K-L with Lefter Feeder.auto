@@ -17,21 +17,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "AprilTagAutoDrive"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoDiveStop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CorralScoreL2"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilTagAutoDrive"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4_2"
+                }
+              }
+            ]
           }
         },
         {
@@ -97,21 +98,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "AprilTagAutoDrive"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoDiveStop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CorralScoreL4_2"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilTagAutoDrive"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4_2"
+                }
+              }
+            ]
           }
         },
         {
@@ -177,21 +179,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "AprilTagAutoDrive"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoDiveStop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CorralScoreL4_2"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilTagAutoDrive"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4_2"
+                }
+              }
+            ]
           }
         },
         {

@@ -47,12 +47,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "StowAll"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Left Feeder to K"
@@ -92,12 +86,6 @@
           "type": "named",
           "data": {
             "name": "AutoIntakeCmd"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StowAll"
           }
         },
         {
