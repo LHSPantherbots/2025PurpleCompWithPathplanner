@@ -25,7 +25,7 @@ public class CorralScoreL4_2 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelRaceGroup(new ElevatorCmd(Position.CORAL_L4, elevator,true), new WristCmd(Position.STOW, wrist)),
+      new ParallelRaceGroup(new ElevatorCmd(Position.CORAL_L4, elevator,true), new WristCmd(Position.STOW, wrist)),// possibly add a timeout here
       new WristCmd(Position.CORAL_L4, wrist),
       new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L4), RobotContainer.leds)
     );

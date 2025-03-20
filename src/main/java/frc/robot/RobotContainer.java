@@ -128,10 +128,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("CorralScoreL3", new CorralScoreL3(wrist, elevator).withTimeout(.25));
         NamedCommands.registerCommand("CorralScoreL4", new CorralScoreL4(wrist, elevator).withTimeout(2));
         NamedCommands.registerCommand("StowAll", new StowAll(wrist, elevator).withTimeout(.25));
-        NamedCommands.registerCommand("AutoOutakeCmd", new RunCommand(() -> coral.outtake(), coral).withTimeout(.5));
+        NamedCommands.registerCommand("AutoOutakeCmd", new RunCommand(() -> coral.outtake(), coral).withTimeout(.5));// Could make multiple outake commands
         NamedCommands.registerCommand("CorralIntake", new CorralIntake(wrist, elevator).withTimeout(1.0));
-        NamedCommands.registerCommand("AutoStopIntakeCmd", new RunCommand(() -> coral.intakeStop(), coral).withTimeout(.25));
-        NamedCommands.registerCommand("CorralScoreL4_2", new CorralScoreL4_2(wrist, elevator).withTimeout(2.0));
+        NamedCommands.registerCommand("AutoStopIntakeCmd", new RunCommand(() -> coral.intakeStop(), coral).withTimeout(.25));// might not work
+        NamedCommands.registerCommand("CorralScoreL4_2", new CorralScoreL4_2(wrist, elevator).withTimeout(2.0));// possibly shorten
         NamedCommands.registerCommand("SetupAutoAlignLeft", new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
         NamedCommands.registerCommand("SetupAutoAlignRight", new AprilTagAlign2(drivetrain, OffsetDirection.RIGHT));
         NamedCommands.registerCommand("SetupAutoAlignCenter", new AprilTagAlign2(drivetrain, OffsetDirection.CENTER));

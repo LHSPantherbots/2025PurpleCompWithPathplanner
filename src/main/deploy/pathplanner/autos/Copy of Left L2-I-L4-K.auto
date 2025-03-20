@@ -1,0 +1,128 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Back to I-L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AprilTagAutoDrive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoDiveStop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CorralScoreL2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoStopIntakeCmd"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StowAll"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "I to Left Feeder with event markers"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Feeder to K"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AprilTagAutoDrive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoDiveStop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CorralScoreL4_2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoStopIntakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StowAll"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
