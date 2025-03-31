@@ -3,32 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2123355263157893,
-        "y": 1.0615131578947363
+        "x": 5.0729,
+        "y": 5.367
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2558298035328046,
-        "y": 1.2784629596250896
+        "x": 5.518069318969833,
+        "y": 5.379178450606612
       },
       "isLocked": false,
-      "linkedName": "Right Feeder"
+      "linkedName": "J"
     },
     {
       "anchor": {
-        "x": 3.608141447368421,
-        "y": 2.822286184210526
+        "x": 1.6828767123287671,
+        "y": 7.3081121575342465
       },
       "prevControl": {
-        "x": 3.155921052631579,
-        "y": 2.2353618421052626
+        "x": 2.780992801052431,
+        "y": 6.231336992940503
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "C"
+      "linkedName": "Lefter Feeder"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3710691823899371,
+      "rotationDegrees": -134.0792404983845
+    },
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -139.1544017143135
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +51,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 58.49573328079582
+    "rotation": 127.97160376105039
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -126.86989764584409
+    "rotation": -119.2913621709843
   },
   "useDefaultConstraints": true
 }

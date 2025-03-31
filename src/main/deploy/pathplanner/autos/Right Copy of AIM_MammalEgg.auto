@@ -5,25 +5,13 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "Left Back to I-L4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SetupAutoAlignLeft"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AprilTagAutoDrive"
+                  "pathName": "Right Back to E"
                 }
               },
               {
@@ -54,47 +42,28 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "StowAll"
+                  "name": "CorralIntake"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "I to Lefter Feeder"
+                  "pathName": "E to Righter Feeder"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "CorralIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoIntakeCmd"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": null
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "SetupAutoAlignLeft"
+            "name": "AutoIntakeCmd"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Righter Feeder to Right midRotation"
           }
         },
         {
@@ -102,9 +71,9 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AprilTagAutoDrive"
+                  "pathName": "Right midRotation to D"
                 }
               },
               {
@@ -114,6 +83,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignLeft"
           }
         },
         {
@@ -135,13 +110,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "StowAll"
+                  "name": "CorralIntake"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "K to Lefter Feeder"
+                  "pathName": "D to Righter Feeder"
                 }
               }
             ]
@@ -154,12 +129,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "CorralIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "AutoIntakeCmd"
                 }
               }
@@ -169,32 +138,32 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Lefter Feeder to L"
+            "pathName": "Righter Feeder to Right midRotation"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right midRotation to C"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4_2"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
             "name": "SetupAutoAlignRight"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AprilTagAutoDrive"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "CorralScoreL4_2"
-                }
-              }
-            ]
           }
         },
         {

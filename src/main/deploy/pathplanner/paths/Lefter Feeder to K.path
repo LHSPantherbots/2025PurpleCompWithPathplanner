@@ -8,32 +8,44 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.509289383561644,
-        "y": 6.81226455479452
+        "x": 2.0212997818968894,
+        "y": 6.701398543410195
       },
       "isLocked": false,
       "linkedName": "Lefter Feeder"
     },
     {
       "anchor": {
-        "x": 3.8101973684210524,
-        "y": 5.545230263157895
+        "x": 3.906,
+        "y": 5.367
       },
       "prevControl": {
-        "x": 3.419529560201874,
-        "y": 6.206360400144196
+        "x": 3.2258468435819405,
+        "y": 6.177699195762807
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "K"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5298742138364779,
+      "rotationDegrees": -37.71327916801921
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "EventCorralScoreL4_2",
+      "waypointRelativePos": 0.597845601436266,
+      "endWaypointRelativePos": 0.6624775583482946,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
+    "maxVelocity": 4.6,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -50,5 +62,5 @@
     "velocity": 0,
     "rotation": 127.97160376105039
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

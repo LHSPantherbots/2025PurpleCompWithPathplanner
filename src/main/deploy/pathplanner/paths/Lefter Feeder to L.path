@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.149849341570143,
-        "y": 6.375752427534982
+        "x": 2.0808430465141634,
+        "y": 6.6864425643922
       },
       "isLocked": false,
       "linkedName": "Lefter Feeder"
     },
     {
       "anchor": {
-        "x": 3.492680921052631,
-        "y": 5.352796052631579
+        "x": 3.62,
+        "y": 5.202
       },
       "prevControl": {
-        "x": 2.989362639398187,
-        "y": 6.464729431593138
+        "x": 2.938539047611146,
+        "y": 5.913626362496272
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.5,
+    "maxVelocity": 4.6,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

@@ -5,25 +5,13 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "Left Back to I-L4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SetupAutoAlignLeft"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AprilTagAutoDrive"
+                  "pathName": "Left Back to J-L4"
                 }
               },
               {
@@ -38,6 +26,12 @@
         {
           "type": "named",
           "data": {
+            "name": "SetupAutoAlignRight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoOutakeCmd"
           }
         },
@@ -45,25 +39,6 @@
           "type": "named",
           "data": {
             "name": "AutoStopIntakeCmd"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StowAll"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "I to Lefter Feeder"
-                }
-              }
-            ]
           }
         },
         {
@@ -77,24 +52,24 @@
                 }
               },
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AutoIntakeCmd"
+                  "pathName": "J to Lefter Feeder"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
+            "name": "AutoIntakeCmd"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "SetupAutoAlignLeft"
+            "pathName": "Lefter Feeder to midRotation"
           }
         },
         {
@@ -102,9 +77,9 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AprilTagAutoDrive"
+                  "pathName": "midRotation to K"
                 }
               },
               {
@@ -114,6 +89,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignLeft"
           }
         },
         {
@@ -135,7 +116,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "StowAll"
+                  "name": "CorralIntake"
                 }
               },
               {
@@ -154,12 +135,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "CorralIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "AutoIntakeCmd"
                 }
               }
@@ -169,13 +144,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Lefter Feeder to L"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SetupAutoAlignRight"
+            "pathName": "Lefter Feeder to midRotation"
           }
         },
         {
@@ -183,9 +152,9 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AprilTagAutoDrive"
+                  "pathName": "midRotation to L"
                 }
               },
               {
@@ -195,6 +164,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignRight"
           }
         },
         {
@@ -213,6 +188,18 @@
           "type": "named",
           "data": {
             "name": "StowAll"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "L to Lefter Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeCmd"
           }
         }
       ]

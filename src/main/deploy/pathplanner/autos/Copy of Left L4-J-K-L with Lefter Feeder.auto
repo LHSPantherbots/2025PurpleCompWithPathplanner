@@ -5,15 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Left Back to I-L4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left Back to J-L4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4_2"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "SetupAutoAlignLeft"
+            "name": "SetupAutoAlignRight"
           }
         },
         {
@@ -54,22 +67,47 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "StowAll"
+                  "name": "CorralIntake"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "I to Lefter Feeder with event marker"
+                  "pathName": "J to Lefter Feeder"
                 }
               }
             ]
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeCmd"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Lefter Feeder to K"
+            "pathName": "Lefter Feeder to midRotation"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "midRotation to K"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4_2"
+                }
+              }
+            ]
           }
         },
         {
@@ -116,7 +154,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "StowAll"
+                  "name": "CorralIntake"
                 }
               },
               {
@@ -132,12 +170,6 @@
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "CorralIntake"
-                }
-              },
               {
                 "type": "named",
                 "data": {

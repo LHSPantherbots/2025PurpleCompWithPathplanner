@@ -54,7 +54,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "StowAll"
+                  "name": "CorralIntake"
                 }
               },
               {
@@ -67,22 +67,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "CorralIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoIntakeCmd"
-                }
-              }
-            ]
+            "name": "AutoIntakeCmd"
           }
         },
         {

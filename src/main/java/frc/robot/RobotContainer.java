@@ -14,6 +14,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -59,6 +60,11 @@ import frc.robot.subsystems.Leds;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.util.OffsetDirection;
 import frc.robot.util.Position;
+import static frc.robot.Constants.VisionConstants.CAMERA_NAMES;
+import static frc.robot.Constants.VisionConstants.ROBOT_TO_CAMERA_TRANSFORMS;
+
+
+
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -95,13 +101,14 @@ public class RobotContainer {
 
 
 
+
     //Drive to spot stuff
-        double kDt = .02;
+        double kDt = .02; //was .02
         
   
 
 
-      private final PIDController x_controller = new PIDController(10, 0, 0);
+      private final PIDController x_controller = new PIDController(10,0,0);                       //(10, 0, 0);
       private final PIDController y_controller = new PIDController(10, 0,0);
       private final PIDController theta_controller = new PIDController(15, 0, 0);
       
@@ -130,17 +137,19 @@ public class RobotContainer {
         NamedCommands.registerCommand("StowAll", new StowAll(wrist, elevator).withTimeout(.25));
         NamedCommands.registerCommand("AutoOutakeCmd", new RunCommand(() -> coral.outtake(), coral).withTimeout(.5));// Could make multiple outake commands
         NamedCommands.registerCommand("CorralIntake", new CorralIntake(wrist, elevator).withTimeout(1.0));
-        NamedCommands.registerCommand("AutoStopIntakeCmd", new RunCommand(() -> coral.intakeStop(), coral).withTimeout(.25));// might not work
-        NamedCommands.registerCommand("CorralScoreL4_2", new CorralScoreL4_2(wrist, elevator).withTimeout(2.0));// possibly shorten
+        NamedCommands.registerCommand("AutoStopIntakeCmd", new RunCommand(() -> coral.intakeStop(), coral).withTimeout(.02));// might not work // was .25 sec
+        NamedCommands.registerCommand("CorralScoreL4_2", new CorralScoreL4_2(wrist, elevator).withTimeout(1.5));// !DO NOT SHORTEN EVER!
+        new EventTrigger("EventCorralScoreL4_2").whileTrue(new CorralScoreL4_2(wrist, elevator));
         NamedCommands.registerCommand("SetupAutoAlignLeft", new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
         NamedCommands.registerCommand("SetupAutoAlignRight", new AprilTagAlign2(drivetrain, OffsetDirection.RIGHT));
         NamedCommands.registerCommand("SetupAutoAlignCenter", new AprilTagAlign2(drivetrain, OffsetDirection.CENTER));
         NamedCommands.registerCommand("limelight_pose", new InstantCommand(() -> drivetrain.setPoseFromLimelight(), drivetrain));
         NamedCommands.registerCommand("ResetPose", new InstantCommand(()->drivetrain.resetPose(LimelightHelpers.getBotPose2d_wpiBlue("limelight-tree")),drivetrain));
+        NamedCommands.registerCommand("AprilTagOrient", new InstantCommand(()->drivetrain.resetPose(LimelightHelpers.getBotPose2d_wpiBlue("limelight-tree")),drivetrain) );
         NamedCommands.registerCommand("AprilTagAutoDrive",
         drivetrain.applyRequest(() ->
-        drive.withVelocityX(drivetrain.getAllianceCoefficent()*x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-            .withVelocityY(drivetrain.getAllianceCoefficent()*y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
+        drive.withVelocityX(drivetrain.getAllianceCoefficent()*MathUtil.clamp(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX()), -1.5, 1.5)) // Drive forward with negative Y (forward)
+            .withVelocityY(drivetrain.getAllianceCoefficent()*MathUtil.clamp(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY()), -1.5, 1.5)) // Drive left with negative X (left)
             .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))).withTimeout(1.0)
         );
         NamedCommands.registerCommand("AutoDiveStop",
@@ -149,10 +158,15 @@ public class RobotContainer {
             .withVelocityY(0) // Drive left with negative X (left)
             .withRotationalRate(0)).withTimeout(.025)
         );
+
+        
         
     
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
+
+
+
 
         configureBindings();
     }
@@ -206,9 +220,9 @@ public class RobotContainer {
     m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
     
     //PROBABLY REMOVE THIS ONE
-    //m_driverController.b().whileTrue(drivetrain.applyRequest(() ->
+    // m_driverController.b().whileTrue(drivetrain.applyRequest(() ->
     //        point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))
-    //));
+    // ));
 
     //Slow Mode
     m_driverController.rightBumper().whileTrue(drivetrain.applyRequest(() ->
@@ -243,22 +257,22 @@ public class RobotContainer {
     if(drivetrain.getAlliance().get()==Alliance.Red){
     m_driverController.povUp()
         .whileTrue(drivetrain.applyRequest(() ->
-    drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-        .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+    drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+        .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
 
         
         m_driverController.povLeft()
             .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-            .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+        drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+            .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
 
             m_driverController.povRight()
             .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-            .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+        drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+            .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
     }
 
 
@@ -266,22 +280,22 @@ public class RobotContainer {
     if(drivetrain.getAlliance().get()==Alliance.Blue){
         m_driverController.povUp()
         .whileTrue(drivetrain.applyRequest(() ->
-    drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-        .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+    drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+        .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
 
    
         m_driverController.povLeft()
             .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-            .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+        drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+            .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
 
             m_driverController.povRight()
             .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())) // Drive forward with negative Y (forward)
-            .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))));
+        drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+            .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
     }
 
 

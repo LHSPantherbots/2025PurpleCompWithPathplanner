@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.484375,
-        "y": 5.362417763157894
+        "x": 5.41702302631579,
+        "y": 5.400904605263158
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.893908793477015,
-        "y": 5.463513077608457
+        "x": 5.826556819792805,
+        "y": 5.501999919713722
       },
       "isLocked": false,
       "linkedName": "I"
@@ -28,25 +28,24 @@
       "linkedName": "Lefter Feeder"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.47445972495088384,
+      "rotationDegrees": -140.32139891148697
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "CorralIntake",
-      "waypointRelativePos": 0.80926916221034,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "AutoIntakeCmd",
-      "waypointRelativePos": 0.8894830659536546,
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
+    "maxVelocity": 4.6,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -61,7 +60,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -121.42956561483857
+    "rotation": -119.2913621709843
   },
   "useDefaultConstraints": true
 }

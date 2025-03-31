@@ -14,6 +14,9 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,7 +29,16 @@ public class ElevatorSubsystem extends SubsystemBase {
   private double elevatorSetpoint = 0.0;
   private double allowableError = 1.0;
 
+  private final MechanismLigament2d m_elevator;
+
   public ElevatorSubsystem() {
+    Mechanism2d mech = new Mechanism2d(3,3);
+
+    MechanismRoot2d root = mech.getRoot("elevator", 0, 0);
+
+    m_elevator = root.append(new MechanismLigament2d("elevate", 0, 90));
+
+    SmartDashboard.putData("mechanismmmm", mech);
 
     talon = new TalonFX(40, "drive"); 
     
@@ -94,6 +106,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Elevator Leader Supply Voltage", talon.getSupplyVoltage().getValueAsDouble());
     SmartDashboard.putNumber("Elevator Follower Supply Volgate", follower.getSupplyVoltage().getValueAsDouble());
 ;
+
+    m_elevator.setLength(0+talon.getRotorPosition().getValueAsDouble());
+
+    
 
   
   }

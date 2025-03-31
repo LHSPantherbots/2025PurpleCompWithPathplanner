@@ -4,6 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.units.measure.Distance;
+
+
+import static edu.wpi.first.units.Units.Meters;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -13,6 +24,26 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static class VisionConstants {
+    public static final double APRILTAG_AMBIGUITY_THRESHOLD = 0.6;
+    public static final Distance SINGLE_TAG_DISTANCE_THRESHOLD = Meters.of(2.0);
+    public static final String[] CAMERA_NAMES = new String[] { "FrontLeft", "FrontRight", "BackLeft"};
+    public static final Transform3d[] ROBOT_TO_CAMERA_TRANSFORMS = new Transform3d[] {
+        new Transform3d(new Translation3d(0.3810, 0.2540, 0.2286), new Rotation3d(0, .349, 0)),
+        new Transform3d(new Translation3d(0.3810, -0.2540, 0.2286), new Rotation3d(0, .349, 3.4907)),
+        new Transform3d(new Translation3d(-0.4064, 0.0000, 0.2921), new Rotation3d(0, .349, 2.7925)),};
+
+
+    // The standard deviations of our vision estimated poses, which affect correction rate
+    public static final Matrix<N3, N1> SINGLE_TAG_STD_DEVS = VecBuilder.fill(23, 6, 10);
+    public static final Matrix<N3, N1> MULTI_TAG_STD_DEVS = VecBuilder.fill(0.7, 0.7, 2);
+
+    public static final Distance FIELD_LENGTH = Meters.of(17.548);
+    public static final Distance FIELD_WIDTH = Meters.of(8.052);
+
+
+  }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;

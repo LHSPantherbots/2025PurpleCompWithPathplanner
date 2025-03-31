@@ -13,30 +13,6 @@
         {
           "type": "named",
           "data": {
-            "name": "SetupAutoAlignCenter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AprilTagAutoDrive"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SetupAutoAlignLeft"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AprilTagAutoDrive"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "CorralScoreL4_2"
           }
         },
