@@ -516,6 +516,12 @@ public void purpleStreak10() {
         case LIMELIGHTTARGET:
           purpleFlash();
           break;
+        case CLIMB:
+          red();
+          break;
+        case CLIMBREADY:
+          yellowFlash();
+          break;
       }
         
 //       case CLIMB: red(); break;

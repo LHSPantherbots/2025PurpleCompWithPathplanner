@@ -30,6 +30,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit(){
     LimelightHelpers.SetFiducialIDFiltersOverride("limelight-tree", new int[]{1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21, 22});
+    
+    if(DriverStation.getAlliance().get()==Alliance.Blue){
+      m_robotContainer.drivetrain.getPigeon2().setYaw(180);
+    }
+
+    
   }
 
   @Override
@@ -80,6 +86,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    if(DriverStation.getAlliance().get()==Alliance.Blue){
+      m_robotContainer.drivetrain.getPigeon2().setYaw(180);
+    }
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();

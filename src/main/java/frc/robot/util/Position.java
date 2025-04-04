@@ -21,7 +21,9 @@ package frc.robot.util;
     ALGAE_L3,
     ALGAE_STOW,
     HOLD,
-    LIMELIGHTTARGET
+    LIMELIGHTTARGET,
+    CLIMB,
+    CLIMBREADY
   }
 
 

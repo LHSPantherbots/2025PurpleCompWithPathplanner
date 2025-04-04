@@ -19,18 +19,12 @@ public class AprilTagAlign2 extends Command {
       
 
   CommandSwerveDrivetrain drivetrain;
-  Object[][] targetLocations = {{1, 16.3934,	1.0327, 306.0},  // blue origin location .5 meters in fron of every relevent target
-                                {2, 16.3934,	7.0098, 54.0},
-                                {3, 11.4910,	7.5317, 90.0},
-                                {6, 13.7244, 2.8682, 120.0},
+  Object[][] targetLocations = {{6, 13.7244, 2.8682, 120.0},
                                 {7, 14.3905, 4.0208,	180.0},
                                 {8, 13.7244,	5.1734,	240.0},
                                 {9, 12.3934,	5.1734,	300.0},
                                 {10, 11.7273,	4.0208,	0.0},
                                 {11, 12.3934,	2.8682,	60.0},
-                                {12, 1.1552,	1.0327,	234.0},
-                                {13, 1.1552,	7.0098,	126.0},
-                                {16, 6.0576,	0.5107,	270.0000},
                                 {17, 3.8239,	2.8733,	60.0},
                                 {18, 3.1576,	4.0259,	0.0000},
                                 {19, 3.8239,	5.1785,	300.0},
@@ -52,7 +46,7 @@ public class AprilTagAlign2 extends Command {
       double lengthFromTargetFeeder = .4445; // was .4953
       double offestFromTarget = .1651;
       OffsetDirection offsetDirection = OffsetDirection.CENTER;
-      int[] targets = {1,2,3,6,7,8,9,10,11,12,13,16,17,18,19,20,21,22};
+      int[] targets = {6,7,8,9,10,11,17,18,19,20,21,22};
 
 
       Pose2d desiredPosition = new Pose2d();
@@ -166,28 +160,6 @@ public Pose2d getTargetPosition(int target, double lengthFromTarget, double offs
       double theta_deg = 0.0;
         
         switch (target){
-          case 1:
-            x_inches = 656.98;
-            y_inches = 24.73;
-            theta_deg = 126.0;
-            lengthFromTarget = lengthFromTargetFeeder;
-
-          break;
-          case 2:
-            x_inches = 656.98;
-            y_inches = 291.90;
-            theta_deg = 234.0;
-            lengthFromTarget = lengthFromTargetFeeder;
-
-          break;
-          case 3:
-
-            x_inches = 452.40;
-            y_inches = 316.21;
-            theta_deg = 270;
-            lengthFromTarget = lengthFromTargetFeeder;
-
-          break;
           case 6:
             x_inches = 530.49;
             y_inches = 130.17;
@@ -219,24 +191,6 @@ public Pose2d getTargetPosition(int target, double lengthFromTarget, double offs
             y_inches = 158.50;
             theta_deg = 180.0;
             lengthFromTarget = lengthFromTargetReef;
-            break;
-          case 11:
-            x_inches = 497.77;
-            y_inches = 130.17;
-            theta_deg = 240.0;
-            lengthFromTarget = lengthFromTargetReef;
-            break;
-          case 12:
-            x_inches = 33.91;
-            y_inches = 24.73;
-            theta_deg = 54.0;
-            lengthFromTarget = lengthFromTargetFeeder;
-            break;
-          case 13:
-            x_inches = 33.91;
-            y_inches = 291.90;
-            theta_deg = 306.0;
-            lengthFromTarget = lengthFromTargetFeeder;
             break;
           case 16:
             x_inches = 238.49;

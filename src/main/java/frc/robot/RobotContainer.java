@@ -210,11 +210,12 @@ public class RobotContainer {
 
     //************  DRIVER CONTROLLER  ****************
 
+    m_driverController.leftBumper().whileTrue(new InstantCommand(()-> leds.setRobotStatus(Position.CLIMB), leds));
     m_driverController.leftBumper().whileTrue(
         new RunCommand(
             () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getRightY(), OperatorConstants.kDriveDeadband)),
             climb));
-
+    m_driverController.y().onTrue(new InstantCommand(()-> leds.setRobotStatus(Position.CLIMBREADY), leds));
     m_driverController.y().onTrue(new AutoClimb(climb));    
     
     m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
