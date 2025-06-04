@@ -301,6 +301,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("Back Right Swerve Position", this.getState().ModulePositions[3].angle.getDegrees());
         SmartDashboard.putNumber("Gyro Angle", this.getPigeon2().getYaw().getValueAsDouble());
         SmartDashboard.putString("Alliance", alliance.toString());
+        SmartDashboard.putNumber("Limelight tx", LimelightHelpers.getTX("limelight-tree"));
+        SmartDashboard.putNumber("Limelight area", LimelightHelpers.getTA("limelight-tree"));
 
     }
 

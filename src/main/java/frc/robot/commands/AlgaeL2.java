@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.util.Position;
+import frc.robot.util.ElevatorPosition;
 import frc.robot.RobotContainer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -22,8 +22,8 @@ public class AlgaeL2 extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ElevatorCmd(Position.ALGAE_L2, elevator),
-      new WristCmd(Position.ALGAE_L2, wrist)
+      new ElevatorCmd(ElevatorPosition.ALGAE_L2, elevator),
+      new WristCmd(ElevatorPosition.ALGAE_L2, wrist)
       //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.ALGAE_L2), RobotContainer.leds)
     );
   }

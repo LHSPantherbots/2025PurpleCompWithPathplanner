@@ -192,12 +192,13 @@ public Pose2d getTargetPosition(int target, double lengthFromTarget, double offs
             theta_deg = 180.0;
             lengthFromTarget = lengthFromTargetReef;
             break;
-          case 16:
-            x_inches = 238.49;
-            y_inches = .42;
-            theta_deg = 90;
+          case 11:
+            x_inches = 497.77;
+            y_inches = 130.17;
+            theta_deg = 240.0;
             lengthFromTarget = lengthFromTargetReef;
             break;
+
           case 17:
             x_inches = 160.39;
             y_inches = 130.17;

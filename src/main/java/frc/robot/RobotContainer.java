@@ -69,6 +69,8 @@ import static frc.robot.Constants.VisionConstants.ROBOT_TO_CAMERA_TRANSFORMS;
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    public static double LeftLLArea = 7.0;
+    public static double RightLLArea = 12.0; //Need to verify
   
     
 
@@ -81,6 +83,12 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+    private final SwerveRequest.RobotCentricFacingAngle robotDrive = new SwerveRequest.RobotCentricFacingAngle()
+            .withDeadband(MaxSpeed * 0.05)
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+            .withHeadingPID(16.0,0,0)
+            .withTargetRateFeedforward(0.0).withMaxAbsRotationalRate(MaxAngularRate*.5);
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -111,6 +119,9 @@ public class RobotContainer {
       private final PIDController x_controller = new PIDController(10,0,0);                       //(10, 0, 0);
       private final PIDController y_controller = new PIDController(10, 0,0);
       private final PIDController theta_controller = new PIDController(15, 0, 0);
+
+      private final PIDController x_controller2 = new PIDController(0.3, 0, 0); //.2
+      private final PIDController y_controller2 = new PIDController(0.1, 0,0); //.15
       
       
       
@@ -210,7 +221,8 @@ public class RobotContainer {
 
     //************  DRIVER CONTROLLER  ****************
 
-    m_driverController.leftBumper().whileTrue(new InstantCommand(()-> leds.setRobotStatus(Position.CLIMB), leds));
+    m_driverController.leftBumper().onTrue(new InstantCommand(()-> leds.setRobotStatus(Position.CLIMB), leds));
+    m_driverController.leftBumper().onFalse(new InstantCommand(()-> leds.setRobotStatus(Position.STOW), leds));
     m_driverController.leftBumper().whileTrue(
         new RunCommand(
             () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getRightY(), OperatorConstants.kDriveDeadband)),
@@ -246,58 +258,103 @@ public class RobotContainer {
 
     m_driverController.povDown().onTrue(new InstantCommand(()->drivetrain.resetPose(LimelightHelpers.getBotPose2d_wpiBlue("limelight-tree")),drivetrain));
 
+    
+
+    m_driverController.povLeft().onTrue(new InstantCommand(()->LimelightHelpers.setPipelineIndex("limelight-tree",1)));
+    m_driverController.povLeft().onFalse(new InstantCommand(()->LimelightHelpers.setPipelineIndex("limelight-tree",0)));
+    m_driverController.povLeft().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT)); //just getting target angle from this
+    m_driverController.povLeft().whileTrue(
+        new ConditionalCommand(
+        drivetrain.applyRequest(() ->
+        robotDrive.withVelocityX(MathUtil.clamp(x_controller2.calculate(LimelightHelpers.getTA("limelight-tree"), LeftLLArea),-0.5,0.5)) // Drive forward with negative Y (forward)
+            .withVelocityY(MathUtil.clamp(y_controller2.calculate(LimelightHelpers.getTX("limelight-tree"), 0.0),-0.5,0.5)) // Drive left with negative X (left)
+            .withTargetDirection(new Rotation2d(desiredPosition.getRotation().getRadians()))
+        ),
+        drivetrain.applyRequest(() ->
+            drive.withVelocityX(0.0) // Drive forward with negative Y (forward)
+                .withVelocityY(0.0) // Drive left with negative X (left)
+                .withRotationalRate(0.0))
+        ,
+        () -> (LimelightHelpers.getTV("limelight-tree"))
+        )
+    );
+
+
+
+    m_driverController.povRight().onTrue(new InstantCommand(()->LimelightHelpers.setPipelineIndex("limelight-tree",2))); //Need to make a pipline 2
+    m_driverController.povRight().onFalse(new InstantCommand(()->LimelightHelpers.setPipelineIndex("limelight-tree",0)));
+    m_driverController.povRight().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.RIGHT)); //just getting target angle from this
+    m_driverController.povRight().whileTrue(
+        new ConditionalCommand(
+        drivetrain.applyRequest(() ->
+        robotDrive.withVelocityX(MathUtil.clamp(x_controller2.calculate(LimelightHelpers.getTA("limelight-tree"), RightLLArea),-0.5,0.5)) // Need to update for desired area
+            .withVelocityY(MathUtil.clamp(y_controller2.calculate(LimelightHelpers.getTX("limelight-tree"), 0.0),-0.5,0.5)) 
+            .withTargetDirection(new Rotation2d(desiredPosition.getRotation().getRadians()))
+        ),
+        drivetrain.applyRequest(() ->
+            drive.withVelocityX(0.0) 
+                .withVelocityY(0.0) 
+                .withRotationalRate(0.0))
+        ,
+        () -> (LimelightHelpers.getTV("limelight-tree"))
+        )
+    );
+
+
+
+
     //m_driverController.povUp().whileTrue(new RunCommand(() -> coral.outtakeSlow(), coral));
 
     //m_driverController.y().whileTrue(new AprilTagAlign(drivetrain, OffsetDirection.RIGHT));
 
     //m_driverController.y().onTrue(new InstantCommand(()->this.resetControllers()));   
-    m_driverController.povUp().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.CENTER));
-    m_driverController.povLeft().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
-    m_driverController.povRight().onTrue(new AprilTagAlign2(drivetrain,OffsetDirection.RIGHT));
+    //m_driverController.povUp().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.CENTER));
+    //m_driverController.povLeft().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
+    //m_driverController.povRight().onTrue(new AprilTagAlign2(drivetrain,OffsetDirection.RIGHT));
 
-    if(drivetrain.getAlliance().get()==Alliance.Red){
-    m_driverController.povUp()
-        .whileTrue(drivetrain.applyRequest(() ->
-    drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
-        .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
-        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
+    // if(drivetrain.getAlliance().get()==Alliance.Red){
+    // m_driverController.povUp()
+    //     .whileTrue(drivetrain.applyRequest(() ->
+    // drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+    //     .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+    //     .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
 
         
-        m_driverController.povLeft()
-            .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
-            .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
+    //     m_driverController.povLeft()
+    //         .whileTrue(drivetrain.applyRequest(() ->
+    //     drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+    //         .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+    //         .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
 
-            m_driverController.povRight()
-            .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
-            .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
-    }
+    //         m_driverController.povRight()
+    //         .whileTrue(drivetrain.applyRequest(() ->
+    //     drive.withVelocityX(x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+    //         .withVelocityY(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+    //         .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
+    // }
 
 
     
-    if(drivetrain.getAlliance().get()==Alliance.Blue){
-        m_driverController.povUp()
-        .whileTrue(drivetrain.applyRequest(() ->
-    drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
-        .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
-        .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
+    // if(drivetrain.getAlliance().get()==Alliance.Blue){
+    //     m_driverController.povUp()
+    //     .whileTrue(drivetrain.applyRequest(() ->
+    // drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+    //     .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+    //     .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
 
    
-        m_driverController.povLeft()
-            .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
-            .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
+    //     m_driverController.povLeft()
+    //         .whileTrue(drivetrain.applyRequest(() ->
+    //     drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+    //         .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+    //         .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
 
-            m_driverController.povRight()
-            .whileTrue(drivetrain.applyRequest(() ->
-        drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
-            .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
-            .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
-    }
+    //         m_driverController.povRight()
+    //         .whileTrue(drivetrain.applyRequest(() ->
+    //     drive.withVelocityX(-x_controller.calculate(drivetrain.getState().Pose.getX(),desiredPosition.getX())*.5) // Drive forward with negative Y (forward)
+    //         .withVelocityY(-y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY())*.5) // Drive left with negative X (left)
+    //         .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians())*.5)));
+    // }
 
 
     
@@ -343,7 +400,14 @@ public class RobotContainer {
     //     m_operatorController.leftBumper().onTrue(new CorralScoreL4Flip(wrist,elevator,coral));
     // }
     // else{
-        m_operatorController.leftBumper().whileTrue(new RunCommand(() -> coral.outtake(), coral));
+    m_operatorController.leftBumper().whileTrue(new ConditionalCommand(
+    new CorralScoreL4Flip(wrist, elevator, coral),
+        
+    
+    new RunCommand(() -> coral.outtake(), coral),
+    
+    ()->(leds.isAtL4()))
+    );
     // }
 
     //m_operatorController.leftBumper().onTrue(new RunCommand(() -> coral.outtake(), coral).withTimeout(.25));

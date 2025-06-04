@@ -6,17 +6,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.util.Position;
+import frc.robot.util.ElevatorPosition;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class WristCmd extends Command {
   /** Creates a new ElevatorCmd. */
-  Position position;
+  ElevatorPosition position;
   WristSubsystem wrist;
   boolean finishes;
 
 
-  public WristCmd(Position position, WristSubsystem wrist) {
+  public WristCmd(ElevatorPosition position, WristSubsystem wrist) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.position = position;
     this.wrist = wrist;
@@ -24,7 +24,7 @@ public class WristCmd extends Command {
     addRequirements(wrist);
   }
 
-  public WristCmd(Position position, WristSubsystem wrist, boolean finishes) {
+  public WristCmd(ElevatorPosition position, WristSubsystem wrist, boolean finishes) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.position = position;
     this.wrist = wrist;
@@ -50,6 +50,9 @@ public class WristCmd extends Command {
         this.wrist.setWristCoralL1();
         break;
       case CORAL_L2:
+        this.wrist.setWristCoralL2();
+        break;
+      case AUTOCORAL_L2:
         this.wrist.setWristCoralL2();
         break;
       case CORAL_L3:

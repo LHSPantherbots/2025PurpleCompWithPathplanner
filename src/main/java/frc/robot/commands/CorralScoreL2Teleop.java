@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.util.ElevatorPosition;
 import frc.robot.util.Position;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -22,9 +23,9 @@ public class CorralScoreL2Teleop extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ElevatorCmd(Position.CORAL_L2, elevator),
-      new WristCmd(Position.CORAL_L2, wrist),
-      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L2), RobotContainer.leds)
+      new ElevatorCmd(ElevatorPosition.CORAL_L2, elevator),
+      new WristCmd(ElevatorPosition.CORAL_L2, wrist),
+      new InstantCommand(()->RobotContainer.leds.setElevatorStatus(ElevatorPosition.CORAL_L2), RobotContainer.leds)
     );
   }
 }

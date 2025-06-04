@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.util.Position;
+import frc.robot.util.ElevatorPosition;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -25,9 +25,9 @@ public class CorralScoreL4_2 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelRaceGroup(new ElevatorCmd(Position.CORAL_L4, elevator,true), new WristCmd(Position.STOW, wrist)),// possibly add a timeout here
-      new WristCmd(Position.CORAL_L4, wrist),
-      new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L4), RobotContainer.leds)
+      new ParallelRaceGroup(new ElevatorCmd(ElevatorPosition.CORAL_L4, elevator,true), new WristCmd(ElevatorPosition.STOW, wrist)),// possibly add a timeout here
+      new WristCmd(ElevatorPosition.CORAL_L4, wrist),
+      new InstantCommand(()->RobotContainer.leds.setElevatorStatus(ElevatorPosition.CORAL_L4), RobotContainer.leds)
     );
   }
 }

@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDs;
 import frc.robot.LimelightHelpers;
+import frc.robot.RobotContainer;
+import frc.robot.util.ElevatorPosition;
 import frc.robot.util.Position;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -15,6 +17,16 @@ public class Leds extends SubsystemBase {
   private Position state = Position.STOW;
   private Position prevState = Position.STOW;
   public static int LEDstate = 0;
+  double leftErrorA = 10.0;
+  double ErrorX = 10.0;
+  double rightErrorA = 10.0;  
+
+  private ElevatorPosition elevatorState = ElevatorPosition.STOW;
+  private ElevatorPosition prevElevatorState = ElevatorPosition.STOW;
+
+
+
+
 
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
@@ -49,13 +61,27 @@ public class Leds extends SubsystemBase {
 
   @Override
   public void periodic() {
-
-    if(LimelightHelpers.getTargetCount("limelight-tree") > 1){
+    
+    leftErrorA = Math.abs(RobotContainer.LeftLLArea - LimelightHelpers.getTA("limelight-tree"));
+    ErrorX = Math.abs(LimelightHelpers.getTX("limelight-tree"));
+    rightErrorA = Math.abs(RobotContainer.RightLLArea -  LimelightHelpers.getTA("limelight-tree"));
+    
+   
+    if((ErrorX<1.1)&&((leftErrorA<1.0)||(rightErrorA<1.0))){
+      //aligned with target
+      this.setRobotStatus(Position.ALIGNED_TO_TARGET);
+    }else if(LimelightHelpers.getTargetCount("limelight-tree") > 1){
       this.setRobotStatus(Position.LIMELIGHTTARGET);
     }
-    else if (this.getRobotStatus() == Position.LIMELIGHTTARGET){
-      this.setRobotStatus(this.getPrevRobotStatus());
+    else if(LimelightHelpers.getTargetCount("limelight-tree") > 0){
+      this.setRobotStatus(Position.ONE_LIMELIGHTTARGET);
     }
+
+    else {
+      this.setRobotStatus(Position.STOW);
+    }
+
+    
     SmartDashboard.putString("currentRobotStatus", this.getRobotStatus().toString());
     SmartDashboard.putString("previousRobotStatus", this.getPrevRobotStatus().toString());
   }
@@ -475,6 +501,34 @@ public void purpleStreak10() {
      return this.prevState;
    }
 
+   //Elevator position
+
+   public void setElevatorStatus(ElevatorPosition newState){
+    if(this.elevatorState != newState){
+      this.prevElevatorState = this.elevatorState;
+    }
+     this.elevatorState = newState;   }
+
+   public ElevatorPosition getElevatorStatus(){
+     return this.elevatorState;
+   }
+
+   public ElevatorPosition getPrevElevaotrStatus(){
+     return this.prevElevatorState;
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
    public void ledState(){
         
      switch(this.state){
@@ -483,44 +537,21 @@ public void purpleStreak10() {
         case STOW:
           rainbow();
           break;
-        case CORAL_INTAKE:
-          greenPulse();;
-          break;
-        case CORAL_L1_DUMP:
-          rainbow();
-          break;
-        case CORAL_L1:
-          pantherStreak();
-          break;
-        case CORAL_L2:
-          purple();
-          break;
-        case CORAL_L3:
-          yellow();
-          break;
-        case CORAL_L4:
-          orange();
-          break;
-        case ALGAE_L2:
-          bluePulse();
-          break;
-        case ALGAE_L3:
-          blueStreak();
-          break;
-        case ALGAE_STOW:
-          blueStreak();
-          break;
-        case HOLD:
-          green();
-          break;
+       
         case LIMELIGHTTARGET:
           purpleFlash();
+          break;
+        case ONE_LIMELIGHTTARGET:
+          bluePulse();
           break;
         case CLIMB:
           red();
           break;
         case CLIMBREADY:
           yellowFlash();
+          break;
+        case ALIGNED_TO_TARGET:
+          greenFlash();
           break;
       }
         
@@ -537,6 +568,10 @@ public void purpleStreak10() {
 //       case ROBOT_CENTRIC: rainbow(); break;
 //       case DEFAULT: if(RobotContainer.feeder.isNoteDetected()){orange();break;} pantherStreak(); break;
 //     }
+ }
+
+ public boolean isAtL4(){
+  return (getElevatorStatus() == ElevatorPosition.CORAL_L4);
  }
 
 

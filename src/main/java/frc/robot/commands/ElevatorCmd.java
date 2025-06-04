@@ -6,17 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.util.ElevatorPosition;
 import frc.robot.util.Position;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorCmd extends Command {
   /** Creates a new ElevatorCmd. */
-  Position position;
+  ElevatorPosition position;
   ElevatorSubsystem elevator;
   boolean finishes;
 
 
-  public ElevatorCmd(Position position, ElevatorSubsystem elevator) {
+  public ElevatorCmd(ElevatorPosition position, ElevatorSubsystem elevator) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.position = position;
     this.elevator = elevator;
@@ -24,7 +25,7 @@ public class ElevatorCmd extends Command {
     addRequirements(elevator);
   }
 
-  public ElevatorCmd(Position position, ElevatorSubsystem elevator, boolean finishes) {
+  public ElevatorCmd(ElevatorPosition position, ElevatorSubsystem elevator, boolean finishes) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.position = position;
     this.elevator = elevator;

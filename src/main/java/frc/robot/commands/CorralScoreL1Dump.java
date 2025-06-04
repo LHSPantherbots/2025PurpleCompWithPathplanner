@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.util.Position;
+import frc.robot.util.ElevatorPosition;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,8 +22,9 @@ public class CorralScoreL1Dump extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ElevatorCmd(Position.CORAL_L1_DUMP, elevator),
-      new WristCmd(Position.CORAL_L1_DUMP, wrist)
+      new ElevatorCmd(ElevatorPosition.CORAL_L1_DUMP, elevator),
+      new WristCmd(ElevatorPosition.CORAL_L1_DUMP, wrist),
+      new InstantCommand(()->RobotContainer.leds.setElevatorStatus(ElevatorPosition.CORAL_L1_DUMP), RobotContainer.leds)
       //new InstantCommand(()->RobotContainer.leds.setRobotStatus(Position.CORAL_L1_DUMP), RobotContainer.leds)
     );
   }

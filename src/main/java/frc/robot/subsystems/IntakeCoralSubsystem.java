@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeCoralConstants;
 import frc.robot.subsystems.Leds;
-import frc.robot.util.Position;
+import frc.robot.util.ElevatorPosition;
 
 
 public class IntakeCoralSubsystem extends SubsystemBase{
@@ -41,10 +41,10 @@ public class IntakeCoralSubsystem extends SubsystemBase{
     }
 
     public void outtake() {
-      if(RobotContainer.leds.getRobotStatus() == Position.CORAL_L3  || RobotContainer.leds.getRobotStatus() == Position.CORAL_L2){
+      if(RobotContainer.leds.getElevatorStatus() == ElevatorPosition.CORAL_L3  || RobotContainer.leds.getElevatorStatus() == ElevatorPosition.CORAL_L2){
         m_IntakeCoral.set(.5);
       }
-      else if(!(RobotContainer.leds.getRobotStatus() == Position.CORAL_L3  || RobotContainer.leds.getRobotStatus() == Position.CORAL_L2)){
+      else if(!(RobotContainer.leds.getElevatorStatus() == ElevatorPosition.CORAL_L3  || RobotContainer.leds.getElevatorStatus() == ElevatorPosition.CORAL_L2)){
         m_IntakeCoral.set(.8); //test this (it was .6)
       }
     }

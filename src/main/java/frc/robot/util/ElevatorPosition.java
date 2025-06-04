@@ -8,14 +8,17 @@ package frc.robot.util;
 
 
 
-  public enum Position {
+  public enum ElevatorPosition {
     STOW,
-    LIMELIGHTTARGET,
-    ONE_LIMELIGHTTARGET,
-    CLIMB,
-    CLIMBREADY,
-    ALIGNED_TO_TARGET
+    CORAL_INTAKE,
+    CORAL_L1_DUMP,
+    CORAL_L1,
+    CORAL_L2,
+    AUTOCORAL_L2,
+    CORAL_L3,
+    CORAL_L4,
+    ALGAE_L2,
+    ALGAE_L3,
+    ALGAE_STOW,
+    HOLD
   }
-
-
-
