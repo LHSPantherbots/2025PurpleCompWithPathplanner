@@ -1,0 +1,228 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "LLPipeline0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ResetPose"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right to E"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LLPipeline1"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilTagAutoDrive2Left"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "LLPipeline0"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "E to Righter Feeder"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeCmd"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Righter Feeder to Right midRotation D"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignRight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LLPipeline2"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilTagAutoDrive2Right"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "LLPipeline0"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "D to Righter Feeder"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeCmd"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Righter Feeder to Right midRotation C"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LLPipeline1"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilTagAutoDrive2Left"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CorralIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LLPipeline0"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

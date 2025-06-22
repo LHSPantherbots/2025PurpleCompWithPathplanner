@@ -121,7 +121,7 @@ public class RobotContainer {
       private final PIDController theta_controller = new PIDController(15, 0, 0);
 
       private final PIDController x_controller2 = new PIDController(0.3, 0, 0); //.2
-      private final PIDController y_controller2 = new PIDController(0.1, 0,0); //.15
+      private final PIDController y_controller2 = new PIDController(0.05, 0,0); //.15
       
       
       
@@ -163,12 +163,31 @@ public class RobotContainer {
             .withVelocityY(drivetrain.getAllianceCoefficent()*MathUtil.clamp(y_controller.calculate(drivetrain.getState().Pose.getY(),desiredPosition.getY()), -1.5, 1.5)) // Drive left with negative X (left)
             .withRotationalRate(theta_controller.calculate(drivetrain.getState().Pose.getRotation().getRadians(),desiredPosition.getRotation().getRadians()))).withTimeout(1.0)
         );
+        NamedCommands.registerCommand("LLPipeline0", new InstantCommand(()->LimelightHelpers.setPipelineIndex("limelight-tree",0)) );
+        NamedCommands.registerCommand("LLPipeline1", new InstantCommand(()->LimelightHelpers.setPipelineIndex("limelight-tree",1)));
+        NamedCommands.registerCommand("LLPipeline2", new InstantCommand(()->LimelightHelpers.setPipelineIndex("limelight-tree",2)));
+        NamedCommands.registerCommand("AprilTagAutoDrive2Right",
+        drivetrain.applyRequest(() ->
+        robotDrive.withVelocityX(MathUtil.clamp(x_controller2.calculate(LimelightHelpers.getTA("limelight-tree"), RightLLArea),-0.5,0.5)) // Need to update for desired area
+        .withVelocityY(MathUtil.clamp(y_controller2.calculate(LimelightHelpers.getTX("limelight-tree"), 0.0),-0.5,0.5)) 
+        .withTargetDirection(new Rotation2d(desiredPosition.getRotation().getRadians()))).withTimeout(2.0)
+        
+        );
+        NamedCommands.registerCommand("AprilTagAutoDrive2Left", 
+        drivetrain.applyRequest(() ->
+        robotDrive.withVelocityX(MathUtil.clamp(x_controller2.calculate(LimelightHelpers.getTA("limelight-tree"), LeftLLArea),-0.5,0.5)) // Drive forward with negative Y (forward)
+            .withVelocityY(MathUtil.clamp(y_controller2.calculate(LimelightHelpers.getTX("limelight-tree"), 0.0),-0.5,0.5)) // Drive left with negative X (left)
+            .withTargetDirection(new Rotation2d(desiredPosition.getRotation().getRadians()))).withTimeout(2.0)
+
+        );
+
         NamedCommands.registerCommand("AutoDiveStop",
         drivetrain.applyRequest(() ->
         drive.withVelocityX(0) // Drive forward with negative Y (forward)
             .withVelocityY(0) // Drive left with negative X (left)
             .withRotationalRate(0)).withTimeout(.025)
         );
+        NamedCommands.registerCommand("ResetPose", new InstantCommand(()->drivetrain.resetPose(LimelightHelpers.getBotPose2d_wpiBlue("limelight-tree")),drivetrain));
 
         
         
@@ -190,11 +209,24 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(
     //         // Drivetrain will execute this command periodically
+            
+            //Swaps Joystics if Nacy is toggled
+            new ConditionalCommand(
              drivetrain.applyRequest(() ->
-                 drive.withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                     .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                 drive.withVelocityX(m_driverController.getRightY() * MaxSpeed) // Drive forward with negative Y (forward)
+                     .withVelocityY(m_driverController.getRightX() * MaxSpeed) // Drive left with negative X (left)
                      .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate*2.0) // Drive counterclockwise with negative X (left)
-             )
+             ),
+             //Regular Joystics
+             drivetrain.applyRequest(() ->
+             drive.withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                 .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                 .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate*2.0) // Drive counterclockwise with negative X (left)
+            ),
+
+            () -> (drivetrain.getisNancy())
+
+            )
          );
 
     elevator.setDefaultCommand(
@@ -224,10 +256,24 @@ public class RobotContainer {
     m_driverController.leftBumper().onTrue(new InstantCommand(()-> leds.setRobotStatus(Position.CLIMB), leds));
     m_driverController.leftBumper().onFalse(new InstantCommand(()-> leds.setRobotStatus(Position.STOW), leds));
     m_driverController.leftBumper().whileTrue(
+        new ConditionalCommand(
+        
+        //Swaps Joysticks if Nancy
         new RunCommand(
-            () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getRightY(), OperatorConstants.kDriveDeadband)),
-            climb));
-    m_driverController.y().onTrue(new InstantCommand(()-> leds.setRobotStatus(Position.CLIMBREADY), leds));
+            () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband)), climb),
+         new RunCommand(
+            () -> climb.manualClimbMove(-MathUtil.applyDeadband(m_driverController.getRightY(), OperatorConstants.kDriveDeadband)), climb),
+            
+            
+        () -> (drivetrain.getisNancy())    
+        ));
+    
+    
+    
+    
+    
+    
+            m_driverController.y().onTrue(new InstantCommand(()-> leds.setRobotStatus(Position.CLIMBREADY), leds));
     m_driverController.y().onTrue(new AutoClimb(climb));    
     
     m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
@@ -238,10 +284,34 @@ public class RobotContainer {
     // ));
 
     //Slow Mode
-    m_driverController.rightBumper().whileTrue(drivetrain.applyRequest(() ->
-    drive.withVelocityX(m_driverController.getLeftY() * MaxSpeed * .25) // Drive forward with negative Y (forward)
-        .withVelocityY(m_driverController.getLeftX() * MaxSpeed * .25) // Drive left with negative X (left)
-        .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate * .25)));
+    m_driverController.rightBumper().whileTrue(
+        
+        new ConditionalCommand(
+        drivetrain.applyRequest(() ->
+            drive.withVelocityX(m_driverController.getRightY() * MaxSpeed * .25) // Drive forward with negative Y (forward)
+            .withVelocityY(m_driverController.getRightX() * MaxSpeed * .25) // Drive left with negative X (left)
+            .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate * .25)),
+        drivetrain.applyRequest(() ->
+            drive.withVelocityX(m_driverController.getLeftY() * MaxSpeed * .25) // Drive forward with negative Y (forward)
+            .withVelocityY(m_driverController.getLeftX() * MaxSpeed * .25) // Drive left with negative X (left)
+            .withRotationalRate((m_driverController.getLeftTriggerAxis()-m_driverController.getRightTriggerAxis()) * MaxAngularRate * .25)),
+        
+        () -> (drivetrain.getisNancy())
+            
+            
+            
+    ));
+
+    //Alignment assist
+    m_driverController.x().onTrue(new AprilTagAlign2(drivetrain, OffsetDirection.LEFT));
+    m_driverController.x().whileTrue(
+        drivetrain.applyRequest(() ->
+            robotDrive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * .25) // Need to update for desired area
+        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed * .25) 
+        .withTargetDirection(new Rotation2d(desiredPosition.getRotation().getRadians())))
+
+
+    );
 
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.

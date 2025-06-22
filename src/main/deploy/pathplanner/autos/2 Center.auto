@@ -1,0 +1,80 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "LLPipeline0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ResetPose"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center H"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignRight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LLPipeline2"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilTagAutoDrive2Right"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CorralIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LLPipeline0"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

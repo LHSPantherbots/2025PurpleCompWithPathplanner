@@ -3,47 +3,40 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3759046052631578,
-        "y": 7.286759868421052
+        "x": 1.452878289473684,
+        "y": 0.5996710526315792
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7143276748312801,
-        "y": 6.680046254297001
+        "x": 2.046344852160376,
+        "y": 1.4082883765374725
       },
       "isLocked": false,
-      "linkedName": "Lefter Feeder"
+      "linkedName": "Righter Feeder"
     },
     {
       "anchor": {
-        "x": 3.906,
-        "y": 5.367
+        "x": 3.6177631578947365,
+        "y": 2.3700657894736845
       },
       "prevControl": {
-        "x": 3.2258468435819405,
-        "y": 6.177699195762807
+        "x": 3.286037517324357,
+        "y": 1.812780034071757
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "K"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5298742138364779,
-      "rotationDegrees": -37.71327916801921
+      "waypointRelativePos": 0.6964933494558639,
+      "rotationDegrees": 54.22700719135308
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "EventCorralScoreL4_2",
-      "waypointRelativePos": 0.597845601436266,
-      "endWaypointRelativePos": 0.6624775583482946,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.6,
     "maxAcceleration": 4.0,
@@ -53,14 +46,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -59.03624346792647
+    "velocity": 0.5,
+    "rotation": 58.67130713219586
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 127.97160376105039
+    "rotation": -124.56252464888185
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

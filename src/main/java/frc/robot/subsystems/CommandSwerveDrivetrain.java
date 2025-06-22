@@ -43,6 +43,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+    public boolean isNancy;
 
     private Optional<Alliance> alliance = DriverStation.getAlliance();  //Put somewhere else to check periodically
     private double allianceCoefficent = 1.0; //1.0 Red  -1.0 Blue
@@ -303,6 +304,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putString("Alliance", alliance.toString());
         SmartDashboard.putNumber("Limelight tx", LimelightHelpers.getTX("limelight-tree"));
         SmartDashboard.putNumber("Limelight area", LimelightHelpers.getTA("limelight-tree"));
+        isNancy = SmartDashboard.getBoolean("Is Nancy", false);
 
     }
 
@@ -382,6 +384,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     public void setPoseFromLimelight(){
         this.resetPose(LimelightHelpers.getBotPose2d_wpiBlue("limelight-tree"));
+    }
+
+    public boolean getisNancy(){
+        return isNancy;
     }
     
 }
