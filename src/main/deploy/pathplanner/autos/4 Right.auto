@@ -19,81 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left to J"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SetupAutoAlignRight"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LLPipeline2"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AprilTagAutoDrive2Right"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "CorralScoreL4"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoOutakeCmd"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "CorralIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "LLPipeline0"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "J to Lefter Feeder"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoIntakeCmd"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Lefter Feeder to midRotation K"
+            "pathName": "Right to E"
           }
         },
         {
@@ -152,7 +78,81 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "K to Lefter Feeder"
+                  "pathName": "E to Righter Feeder"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeCmd"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Righter Feeder to Right midRotation D"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetupAutoAlignRight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LLPipeline2"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilTagAutoDrive2Right"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralScoreL4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOutakeCmd"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CorralIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "LLPipeline0"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "D to Righter Feeder"
                 }
               }
             ]

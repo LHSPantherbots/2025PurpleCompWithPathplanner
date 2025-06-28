@@ -163,61 +163,6 @@
           "data": {
             "name": "AutoIntakeCmd"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Righter Feeder to Right midRotation C"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SetupAutoAlignLeft"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LLPipeline1"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AprilTagAutoDrive2Left"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "CorralScoreL4"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoOutakeCmd"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CorralIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LLPipeline0"
-          }
         }
       ]
     }
